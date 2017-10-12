@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Dimensions, StyleSheet, ListView, Text } from 'react-native';
 
-import RateView from '../share-components/rate-view';
+import RateView from '../../share-components/rate-view';
 
 const { height, width } = Dimensions.get('window');
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
 
 import icSearch from '../../images/ic_search.png';
+import icEmpty from '../../images/ic_empty.png';
 import MyListView from './list-view';
 
 const { height, width } = Dimensions.get('window');
@@ -12,7 +13,7 @@ export default class KhamPha extends Component {
         return (
             <View style={wrapper}>
                 <View style={row}>
-                    <Text />
+                <Image source={icEmpty} style={icon} />
                     <Text style={title}>Khám phá Việt Nam quyến rũ</Text>
                     <Image source={icSearch} style={icon} />
                 </View>

@@ -9,23 +9,28 @@ import ItemListview from './item-listview';
 const { height, width } = Dimensions.get('window');
 
 const data = [
-    { id: 1, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 2, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 3, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 4, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 5, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 6, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') }
+    { id: 1, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
+    { id: 2, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
+    { id: 3, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
+    { id: 4, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
+    { id: 5, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
+    { id: 6, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') }
 ]
 
 export default class MyListView extends Component {
+    gotoListLv1() {
+        const { navigator } = this.props;
+        navigator.push({ name: 'list_lv1' });
+    }
+
     render() {
-        const { listTitle } = this.props;
+        const { listTitle, navigator } = this.props;
         const { wrapper, row, title, viewMore } = styles;
         return (
             <View style={wrapper}>
                 <View style={row}>
                     <Text style={title}>{listTitle}</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.gotoListLv1.bind(this)} >
                         <Text style={viewMore}>Xem thêm</Text>
                     </TouchableOpacity>
                 </View>

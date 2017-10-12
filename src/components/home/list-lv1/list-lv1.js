@@ -9,21 +9,23 @@ import {
     Dimensions,
     Image,
     Picker,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
+import Swiper from 'react-native-swiper';
 
-import icMap from '../../images/ic_map.png';
-import icSearch from '../../images/ic_search.png';
-import thumbnail from '../../images/thumbnail.png';
+import icMap from '../../../images/ic_map.png';
+import icSearch from '../../../images/ic_search.png';
+import thumbnail from '../../../images/thumbnail.png';
 
-import HomeContent from './home-content';
+import ListBody from './list-body';
+import MySwiper from '../shared/my-swiper';
 
 const { height, width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = width * 375 / 540;
 const HEADER_MIN_HEIGHT = height / 12.4;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-export default class HomeMain extends Component {
+export default class ListLv1Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +38,7 @@ export default class HomeMain extends Component {
         const { navigator } = this.props;
         return (
             <View style={styles.scrollViewContent}>
-                <HomeContent navigator={navigator} />
+                <ListBody navigator={navigator} />
             </View>
         );
     }
@@ -82,31 +84,22 @@ export default class HomeMain extends Component {
                         { transform: [{ translateY: headerTranslate }] },
                     ]}
                 >
-                    <Animated.Image
+                    <Animated.View
                         style={[
                             styles.backgroundImage,
                             {
                                 opacity: imageOpacity,
                                 transform: [{ translateY: imageTranslate }],
                             },
-                        ]}
-                        source={thumbnail}
-                    />
+                        ]}>
+                        <MySwiper />
+                    </Animated.View>
                 </Animated.View>
                 <Animated.View style={styles.bar} >
                     <TouchableOpacity onPress={this.goToHomeMap.bind(this)}>
                         <Image source={icMap} style={styles.icon} />
                     </TouchableOpacity>
-                    <View style={styles.picker_wrapper}>
-                        <Picker style={styles.picker}
-                            selectedValue={this.state.language}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}>
-                            <Picker.Item label="Việt Nam" value="vietnam" />
-                            <Picker.Item label="Hà Nội" value="hanoi" />
-                            <Picker.Item label="Đà Nẵng" value="danang" />
-                            <Picker.Item label="Sài Gòn" value="saigon" />
-                        </Picker>
-                    </View>
+                    <Text style={styles.titleStyle}>Địa điểm</Text>
                     <Image source={icSearch} style={styles.icon} />
                 </Animated.View>
             </View>
@@ -114,12 +107,12 @@ export default class HomeMain extends Component {
     }
 }
 
+// test
+const wSwiper = width;
+const hSwiper = width * 375 / 540;
+
 const styles = StyleSheet.create({
     fill:
-    {
-        flex: 1,
-    },
-    content:
     {
         flex: 1,
     },
@@ -139,9 +132,10 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        resizeMode: 'cover',
         width: width,
-        height: width * 375 / 540
+        height: width * 375 / 540,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     bar:
     {
@@ -156,11 +150,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: height / 50,
     },
-    logo:
-    {
-        width: width,
-        height: width * 375 / 540
-    },
     icon:
     {
         height: height / 25,
@@ -173,18 +162,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: height / 10
     },
-    picker:
+    titleStyle:
     {
-        marginTop: -height / 52,
+        fontWeight: 'bold',
+        fontSize: height / 35,
+        color: 'white'
     },
-    row: {
-        height: 40,
-        margin: 16,
-        backgroundColor: '#D3D3D3',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    scrollViewContent: {
+    scrollViewContent:
+    {
         marginTop: width * 375 / 540,
-    },
+    }
 });
