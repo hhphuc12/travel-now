@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import MapView from 'react-native-maps';
 
-import icBack from '../../../images/ic_back.png';
+import BackButton from '../../share-components/back-button';
 
 const { height, width } = Dimensions.get('window');
 
@@ -21,8 +21,8 @@ export default class HomeMap extends Component {
             {
                 latitude: 0,
                 longitude: 0,
-                latitudeDelta: 1,
-                longitudeDelta: 1
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01
             },
             marker:
             {
@@ -37,23 +37,28 @@ export default class HomeMap extends Component {
         navigator.pop();
     }
 
-    componentWillMount() {
-        navigator.geolocation.getCurrentPosition((position) => {
-            this.setState({
-                region:
-                {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01
-                },
-                marker:
-                {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                }
-            })
-        })
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    region:
+                    {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latitudeDelta: 0.01,
+                        longitudeDelta: 0.01
+                    },
+                    marker:
+                    {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    }
+                })
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     }
 
     render() {
@@ -61,19 +66,15 @@ export default class HomeMap extends Component {
         return (
             <View style={wrapper}>
                 <View style={row}>
-                    <TouchableOpacity onPress={this.backToHomeMain.bind(this)}>
-                        <Image source={icBack} style={icon} />
-                    </TouchableOpacity>
+                    <BackButton navigator={this.props.navigator} />
                     <Text style={title}>Bản đồ</Text>
                     <Text />
                 </View>
                 <MapView
                     style={mapView}
-                    initialRegion={this.state.region} >
-                    <MapView.Marker
-                        coordinate={this.state.marker} >
-                        <Image source={require('../../../images/ic_circle.png')} style={marker} />
-                    </MapView.Marker>
+                    initialRegion={this.state.region}
+                    showsUserLocation
+                    showsMyLocationButton >
                 </MapView>
             </View>
         );

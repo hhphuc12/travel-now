@@ -13,10 +13,10 @@ import {
 } from 'react-native';
 
 import icMap from '../../images/ic_map.png';
-import icSearch from '../../images/ic_search.png';
 import thumbnail from '../../images/thumbnail.png';
 
 import HomeContent from './home-content';
+import SearchButton from '../share-components/search-button';
 
 const { height, width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = width * 375 / 540;
@@ -68,6 +68,7 @@ export default class HomeMain extends Component {
             <View style={styles.fill}>
                 <Animated.ScrollView
                     style={styles.fill}
+                    showsVerticalScrollIndicator={false}
                     scrollEventThrottle={1}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
@@ -107,7 +108,7 @@ export default class HomeMain extends Component {
                             <Picker.Item label="Sài Gòn" value="saigon" />
                         </Picker>
                     </View>
-                    <Image source={icSearch} style={styles.icon} />
+                    <SearchButton navigator={this.props.navigator} />
                 </Animated.View>
             </View>
         );

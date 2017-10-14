@@ -14,17 +14,18 @@ const { height, width } = Dimensions.get('window');
 export default class Menu extends Component {
     render() {
         const { wrapper, row } = styles;
+        const { navigator } = this.props;
         return (
             <View style={wrapper}>
                 <View style={row}>
-                    <ItemMenu imgSource={icPlace} title={'Điểm đến'} />
-                    <ItemMenu imgSource={icTrend} title={'Xu hướng'} />
-                    <ItemMenu imgSource={icFood} title={'Đặc sản'} />
+                    <ItemMenu imgSource={icPlace} title={'Điểm đến'} navigator={navigator} />
+                    <ItemMenu imgSource={icTrend} title={'Xu hướng'} navigator={navigator} />
+                    <ItemMenu imgSource={icFood} title={'Đặc sản'} navigator={navigator} />
                 </View>
                 <View style={row}>
-                    <ItemMenu imgSource={icFestival} title={'Lễ hội'} />
-                    <ItemMenu imgSource={icHotel} title={'Khách sạn'} />
-                    <ItemMenu imgSource={icComunity} title={'Cộng đồng'} />
+                    <ItemMenu imgSource={icFestival} title={'Lễ hội'} navigator={navigator} />
+                    <ItemMenu imgSource={icHotel} title={'Khách sạn'} navigator={navigator} />
+                    <ItemMenu imgSource={icComunity} title={'Cộng đồng'} navigator={navigator} />
                 </View>
             </View>
         );

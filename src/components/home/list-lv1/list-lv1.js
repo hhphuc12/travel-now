@@ -13,12 +13,13 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import icMap from '../../../images/ic_map.png';
-import icSearch from '../../../images/ic_search.png';
 import thumbnail from '../../../images/thumbnail.png';
 
 import ListBody from './list-body';
 import MySwiper from '../shared/my-swiper';
+import ListLv2Home from '../list-lv2/list-lv2';
+import SearchButton from '../../share-components/search-button';
+import BackButton from '../../share-components/back-button';
 
 const { height, width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = width * 375 / 540;
@@ -43,9 +44,9 @@ export default class ListLv1Home extends Component {
         );
     }
 
-    goToHomeMap() {
+    goBackToHome() {
         const { navigator } = this.props;
-        navigator.push({ name: 'home_map' });
+        navigator.pop();
     }
 
     render() {
@@ -70,6 +71,7 @@ export default class ListLv1Home extends Component {
             <View style={styles.fill}>
                 <Animated.ScrollView
                     style={styles.fill}
+                    showsVerticalScrollIndicator={false}
                     scrollEventThrottle={1}
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
@@ -96,11 +98,9 @@ export default class ListLv1Home extends Component {
                     </Animated.View>
                 </Animated.View>
                 <Animated.View style={styles.bar} >
-                    <TouchableOpacity onPress={this.goToHomeMap.bind(this)}>
-                        <Image source={icMap} style={styles.icon} />
-                    </TouchableOpacity>
+                    <BackButton navigator={this.props.navigator} />
                     <Text style={styles.titleStyle}>Địa điểm</Text>
-                    <Image source={icSearch} style={styles.icon} />
+                    <SearchButton navigator={this.props.navigator} />
                 </Animated.View>
             </View>
         );

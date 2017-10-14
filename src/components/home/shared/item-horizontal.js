@@ -5,7 +5,7 @@ import RateView from '../../share-components/rate-view';
 
 const { height, width } = Dimensions.get('window');
 
-export default class ItemListview extends Component {
+export default class ItemHorizontal extends Component {
     render() {
         const { imgSource, title, numStar, numRate, distance, tag } = this.props;
         const { item, thumb, titleStyle, row, numRateStyle, rowTag, tagStyle, distanceStyle } = styles;

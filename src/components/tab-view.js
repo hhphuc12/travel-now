@@ -72,7 +72,7 @@ export default class TabView extends Component {
                         title="Tài khoản"
                         onPress={() => this.setState({ selectedTab: 'tai_khoan' })}
                         renderIcon={() => <Image source={icAccount} style={iconTab} />}
-                        renderSelectedIcon={() => <Image source={icAccount} style={iconTab} />}
+                        renderSelectedIcon={() => <Image source={icAccountS} style={iconTab} />}
                         selectedTitleStyle={{ color: '#00c9ff' }}
                     >
                         <TaiKhoan navigator={navigator} />

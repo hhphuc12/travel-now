@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
 
 import Item from './item';
-import MyListView from '../home/shared/list-view';
+import MyListView from '../home/list-view';
 import icSearch from '../../images/ic_search.png';
 import icEmpty from '../../images/ic_empty.png';
 

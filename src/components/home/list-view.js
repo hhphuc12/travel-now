@@ -4,17 +4,17 @@ import {
     ListView, Text, TouchableOpacity, FlatList
 } from 'react-native';
 
-import ItemListview from './item-listview';
+import ItemHorizontal from './shared/item-horizontal';
 
 const { height, width } = Dimensions.get('window');
 
 const data = [
-    { id: 1, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
-    { id: 2, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
-    { id: 3, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
-    { id: 4, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
-    { id: 5, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') },
-    { id: 6, title: 'Lorem Ipsum', imgSource: require('../../../images/thumbnail.png') }
+    { id: 1, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
+    { id: 2, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
+    { id: 3, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
+    { id: 4, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
+    { id: 5, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
+    { id: 6, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') }
 ]
 
 export default class MyListView extends Component {
@@ -38,13 +38,13 @@ export default class MyListView extends Component {
                     horizontal
                     data={data}
                     renderItem={({ item }) => {
-                        return <ItemListview
+                        return <ItemHorizontal
                             title={item.title}
                             imgSource={item.imgSource}
                             numRate={4}
                             numStar={3}
                             distance={'69,96'}
-                            tag={'an uong, chich choac'} />
+                            tag={'an uong, mua sam'} />
                     }}
                     keyExtractor={(item, index) => item.id}
                     showsHorizontalScrollIndicator={false} />

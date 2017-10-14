@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
-import MyListView from '../shared/list-view';
+import MyListView from './list-view';
 
-export default class HomeContent extends Component {
+export default class ListBody extends Component {
     render() {
         const { navigator } = this.props;
         return (

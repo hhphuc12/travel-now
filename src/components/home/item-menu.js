@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { View, Image, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Image, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
 export default class ItemMenu extends Component {
+    gotoListLv1() {
+        const { navigator } = this.props;
+        navigator.push({ name: 'list_lv1' });
+    }
+
     render() {
         const { imgSource, title } = this.props;
         const { wrapper, img, titleStyle } = styles;
         return (
-            <View style={wrapper}>
+            <TouchableOpacity style={wrapper} onPress={this.gotoListLv1.bind(this)} >
                 <Image source={imgSource} style={img} />
                 <Text style={titleStyle}>{title}</Text>
-            </View>
+            </TouchableOpacity>
         );
     }
 }

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
 
-import icSearch from '../../images/ic_search.png';
 import icEmpty from '../../images/ic_empty.png';
 import MyListView from './list-view';
+
+import SearchButton from '../share-components/search-button';
 
 const { height, width } = Dimensions.get('window');
 
@@ -15,7 +16,7 @@ export default class KhamPha extends Component {
                 <View style={row}>
                 <Image source={icEmpty} style={icon} />
                     <Text style={title}>Khám phá Việt Nam quyến rũ</Text>
-                    <Image source={icSearch} style={icon} />
+                    <SearchButton navigator={this.props.navigator} />
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <MyListView listTitle={'Cẩm nang'} />
