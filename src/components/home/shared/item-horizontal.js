@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import { View, Image, Dimensions, StyleSheet, ListView, Text } from 'react-native';
+import { View, Image, Dimensions, StyleSheet, ListView, Text, TouchableOpacity } from 'react-native';
 
 import RateView from '../../share-components/rate-view';
 
 const { height, width } = Dimensions.get('window');
 
 export default class ItemHorizontal extends Component {
+    goToDetails() {
+        const { navigator } = this.props;
+        navigator.push({ name: 'home_details' });
+    }
+
     render() {
         const { imgSource, title, numStar, numRate, distance, tag } = this.props;
         const { item, thumb, titleStyle, row, numRateStyle, rowTag, tagStyle, distanceStyle } = styles;
         return (
-            <View style={item}>
+            <TouchableOpacity
+                style={item}
+                onPress={this.goToDetails.bind(this)} >
                 <Image style={thumb} source={imgSource} />
                 <Text style={titleStyle}>
                     {title}
@@ -23,7 +30,7 @@ export default class ItemHorizontal extends Component {
                     <Text style={tagStyle}>{tag}</Text>
                     <Text style={distanceStyle}>{distance} km</Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     }
 }

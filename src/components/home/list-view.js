@@ -44,7 +44,8 @@ export default class MyListView extends Component {
                             numRate={4}
                             numStar={3}
                             distance={'69,96'}
-                            tag={'an uong, mua sam'} />
+                            tag={'an uong, mua sam'}
+                            navigator={this.props.navigator} />
                     }}
                     keyExtractor={(item, index) => item.id}
                     showsHorizontalScrollIndicator={false} />

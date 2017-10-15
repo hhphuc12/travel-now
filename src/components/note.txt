@@ -1,1 +1,2 @@
 thumbnail: 540 x 375
+geocoding api: AIzaSyDXUaVI_XUsRzkUKDlcRF15ATk_MFeOuLk
