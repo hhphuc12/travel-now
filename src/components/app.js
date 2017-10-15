@@ -7,12 +7,13 @@ import ListLv2Home from './home/list-lv2/list-lv2';
 import HomeMap from './home/map-view/home-map';
 import SearchResult from './search/search-result';
 import HomeDetails from './home/details/details';
+import Details from './share-components/details';
 
 export default class App extends Component {
     render() {
         return (
             <Navigator
-                initialRoute={{ name: 'home_details' }}
+                initialRoute={{ name: 'home' }}
                 renderScene={(route, navigator) => {
                     switch (route.name) {
                         case 'home_map': return <HomeMap navigator={navigator} />;
@@ -20,6 +21,7 @@ export default class App extends Component {
                         case 'list_lv2': return <ListLv2Home navigator={navigator} />;
                         case 'search': return <SearchResult navigator={navigator} />;
                         case 'home_details': return <HomeDetails navigator={navigator} />;
+                        case 'other_details': return <Details navigator={navigator} />;
                         default: return <TabView navigator={navigator} />;
                     }
                 }}

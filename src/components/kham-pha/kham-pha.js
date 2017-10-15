@@ -11,18 +11,19 @@ const { height, width } = Dimensions.get('window');
 export default class KhamPha extends Component {
     render() {
         const { row, title, icon, wrapper } = styles;
+        const { navigator } = this.props;
         return (
             <View style={wrapper}>
                 <View style={row}>
-                <Image source={icEmpty} style={icon} />
+                    <Image source={icEmpty} style={icon} />
                     <Text style={title}>Khám phá Việt Nam quyến rũ</Text>
                     <SearchButton navigator={this.props.navigator} />
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <MyListView listTitle={'Cẩm nang'} />
-                    <MyListView listTitle={'Điểm đến'} />
-                    <MyListView listTitle={'Ẩm thực'} />
-                    <MyListView listTitle={'Giới thiệu'} />
+                    <MyListView listTitle={'Cẩm nang'} navigator={navigator} />
+                    <MyListView listTitle={'Điểm đến'} navigator={navigator} />
+                    <MyListView listTitle={'Ẩm thực'} navigator={navigator} />
+                    <MyListView listTitle={'Giới thiệu'} navigator={navigator} />
                 </ScrollView>
             </View>
         );

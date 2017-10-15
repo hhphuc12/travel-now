@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 
 import logo from '../../images/logo.png';
 import thumbnail from '../../images/thumbnail.png';
@@ -14,12 +14,17 @@ const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
 const { height, width } = Dimensions.get('window');
 
 export default class Item extends Component {
+    gotoDetails() {
+        const { navigator } = this.props;
+        navigator.push({ name: 'other_details' });
+    }
+
     render() {
         const { wrapper, header, headerText, dateStyle,
             logoStyle, province, titleStyle, thumbnailStyle,
             contentStyle, sourceStyle } = styles;
         return (
-            <View style={wrapper}>
+            <View style={wrapper} onPress={this.gotoDetails.bind(this)} >
                 <View style={header}>
                     <Image source={logo} style={logoStyle} />
                     <View style={headerText}>
@@ -27,10 +32,12 @@ export default class Item extends Component {
                         <Text style={dateStyle}>2017-05-30</Text>
                     </View>
                 </View>
-                <Image source={thumbnail} style={thumbnailStyle}>
-                    <View style={{flex: 1}} />
-                    <Text style={titleStyle}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec rutrum augue</Text>
-                </Image>
+                <TouchableOpacity onPress={this.gotoDetails.bind(this)} >
+                    <Image source={thumbnail} style={thumbnailStyle}>
+                        <View style={{ flex: 1 }} />
+                        <Text style={titleStyle}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec rutrum augue</Text>
+                    </Image>
+                </TouchableOpacity>
                 <Text style={contentStyle}>{content}</Text>
                 <Text style={sourceStyle}>Nguồn: thiendia</Text>
             </View>

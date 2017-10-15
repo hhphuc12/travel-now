@@ -31,7 +31,8 @@ export default class MyListView extends Component {
                     renderItem={({ item }) => {
                         return <ItemListview
                             title={item.title}
-                            imgSource={item.imgSource} />
+                            imgSource={item.imgSource}
+                            navigator={this.props.navigator} />
                     }}
                     keyExtractor={(item, index) => item.id}
                     showsHorizontalScrollIndicator={false}

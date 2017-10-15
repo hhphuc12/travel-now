@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView } from 'react-native';
 
+import SearchButton from '../share-components/search-button';
+
 import Item from './item';
 import MyListView from '../home/list-view';
-import icSearch from '../../images/ic_search.png';
 import icEmpty from '../../images/ic_empty.png';
 
 const { height, width } = Dimensions.get('window');
@@ -11,17 +12,18 @@ const { height, width } = Dimensions.get('window');
 export default class CoGiMoi extends Component {
     render() {
         const { wrapper, row, title, icon, scrollView } = styles;
+        const { navigator } = this.props;
         return (
             <View style={wrapper}>
                 <View style={row}>
                     <Image source={icEmpty} style={icon} />
                     <Text style={title}>Có gì mới</Text>
-                    <Image source={icSearch} style={icon} />
+                    <SearchButton navigator={navigator} />
                 </View>
                 <ScrollView style={scrollView} showsVerticalScrollIndicator={false}>
-                    <Item />
-                    <Item />
-                    <Item />
+                    <Item navigator={navigator} />
+                    <Item navigator={navigator} />
+                    <Item navigator={navigator} />
                 </ScrollView>
             </View>
         );
