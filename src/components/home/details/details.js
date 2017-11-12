@@ -32,10 +32,10 @@ export default class HomeMain extends Component {
     }
 
     _renderScrollViewContent() {
-        const { navigator } = this.props;
+        const { navigator, id } = this.props;
         return (
             <View style={styles.scrollViewContent}>
-                <DetailsBody navigator={navigator} />
+                <DetailsBody navigator={navigator} id={id} />
             </View>
         );
     }
@@ -85,7 +85,7 @@ export default class HomeMain extends Component {
                                 transform: [{ translateY: imageTranslate }],
                             },
                         ]}
-                        source={thumbnail} >
+                        source={{ uri: this.props.imgSource}} >
                         <Text />
                         <View style={styles.rateGroup}>
                             <View style={styles.rateRow}>
@@ -98,7 +98,7 @@ export default class HomeMain extends Component {
                 </Animated.View >
                 <Animated.View style={styles.bar} >
                     <BackButton navigator={this.props.navigator} />
-                    <Text style={styles.title}>Lorem Ipsum</Text>
+                    <Text style={styles.title}>{this.props.title}</Text>
                 </Animated.View>
             </View >
         );

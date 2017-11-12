@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
 
-import ItemVertical from '../shared/item-vertical';
-import { api } from '../../utils';
+import ItemVertical from '../home/shared/item-vertical';
 
-export default class ListBody extends Component {
+export default class Body extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true
+            isLoading: true,
         }
     }
 
     componentDidMount() {
-        let url = api + '/places/filter?sub_category_id=' + this.props.id;
-        console.log(url);
-        return fetch(url)
+        return fetch(this.props.url)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -37,17 +34,21 @@ export default class ListBody extends Component {
             );
         }
 
+        const { row, wrapper, textInput } = styles;
+        const { navigator } = this.props;
         const itemList = this.state.places.map(item =>
             (<ItemVertical
-                navigator={this.props.navigator}
+                navigator={navigator}
                 thumbnail={item.thumbnail}
                 name={item.place_name}
                 address={item.address}
                 numStar={item.rating}
                 tag={item.tag} />));
         return (
-            <View style={{ paddingTop: 5 }}>
-               {itemList}
+            <View style={wrapper}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    {itemList}
+                </ScrollView>
             </View>
         );
     }

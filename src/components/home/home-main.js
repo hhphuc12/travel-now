@@ -9,7 +9,9 @@ import {
     Dimensions,
     Image,
     Picker,
-    TouchableOpacity
+    TouchableOpacity,
+    ListView,
+    ActivityIndicator
 } from 'react-native';
 
 import icMap from '../../images/ic_map.png';
@@ -17,6 +19,7 @@ import thumbnail from '../../images/thumbnail.png';
 
 import HomeContent from './home-content';
 import SearchButton from '../share-components/search-button';
+import { api } from '../utils';
 
 const { height, width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = width * 375 / 540;
@@ -28,7 +31,8 @@ export default class HomeMain extends Component {
         super(props);
         this.state = {
             scrollY: new Animated.Value(0),
-            place: 'vietnam'
+            isLoading: true,
+            place: 'Đà Nẵng'
         };
     }
 
@@ -44,6 +48,22 @@ export default class HomeMain extends Component {
     goToHomeMap() {
         const { navigator } = this.props;
         navigator.push({ name: 'home_map' });
+    }
+
+    componentDidMount() {
+        return fetch(api + '/province/list')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    provinceList: responseJson
+                }, function () {
+                    // do something with new state
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     render() {
@@ -64,6 +84,16 @@ export default class HomeMain extends Component {
             extrapolate: 'clamp',
         });
 
+        if (this.state.isLoading) {
+            return (
+                <View style={{ flex: 1, paddingTop: 20 }}>
+                    <ActivityIndicator />
+                </View>
+            );
+        }
+
+        const pickerItem = this.state.provinceList.map((item) =>
+            (<Picker.Item label={item.province_name} value={item.province_name} />));
         return (
             <View style={styles.fill}>
                 <Animated.ScrollView
@@ -100,12 +130,9 @@ export default class HomeMain extends Component {
                     </TouchableOpacity>
                     <View style={styles.picker_wrapper}>
                         <Picker style={styles.picker}
-                            selectedValue={this.state.language}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ language: itemValue })}>
-                            <Picker.Item label="Việt Nam" value="vietnam" />
-                            <Picker.Item label="Hà Nội" value="hanoi" />
-                            <Picker.Item label="Đà Nẵng" value="danang" />
-                            <Picker.Item label="Sài Gòn" value="saigon" />
+                            selectedValue={this.state.place}
+                            onValueChange={(itemValue, itemIndex) => this.setState({ place: itemValue })}>
+                            {pickerItem}
                         </Picker>
                     </View>
                     <SearchButton navigator={this.props.navigator} />

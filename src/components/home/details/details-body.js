@@ -1,34 +1,51 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import MapView from 'react-native-maps';
 
 const { height, width } = Dimensions.get('window');
 
-const contentText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
-    ' Donec nec rutrum augue. Proin hendrerit tortor nec accumsan cursus.' +
-    ' Sed faucibus pellentesque odio, a scelerisque tortor aliquam sed.' +
-    'Curabitur eget pharetra erat. Sed augue dui, fringilla sit amet nulla id,' +
-    'tristique vestibulum arcu. Class aptent taciti sociosqu ad litora torquent' +
-    'per conubia nostra, per inceptos himenaeos. Phasellus elementum feugiat felis' +
-    ' Donec nec rutrum augue. Proin hendrerit tortor nec accumsan cursus.' +
-    ' Sed faucibus pellentesque odio, a scelerisque tortor aliquam sed.' +
-    'Curabitur eget pharetra erat. Sed augue dui, fringilla sit amet nulla id,' +
-    'tristique vestibulum arcu. Class aptent taciti sociosqu ad litora torquent' +
-    'per conubia nostra, per inceptos himenaeos. Phasellus elementum feugiat felis';
-
 export default class DetailsBody extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true,
+        }
+    }
+
+    componentDidMount() {
+        let url = 'http://tlsg.tk/api/place/' + this.props.id;
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    place: responseJson.place
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={{ flex: 1, paddingTop: 20 }}>
+                    <ActivityIndicator />
+                </View>
+            );
+        }
+        
         return (
             <View>
                 <View style={styles.block}>
                     <View style={styles.propsRow}>
                         <Image source={require('../../../images/ic_star.png')} style={styles.icon} />
-                        <Text style={styles.propsText}>tag a, tag b, tag c</Text>
+                        <Text style={styles.propsText}>{this.state.place.tag}</Text>
                     </View>
                     <View style={styles.propsRow}>
                         <Image source={require('../../../images/ic_directions.png')} style={styles.icon} />
-                        <Text style={styles.propsText}>193 Nguyễn Lương Bằng, Liên Chiểu, Đà Nẵng, Việt Nam</Text>
+                        <Text style={styles.propsText}>{this.state.place.address}</Text>
                     </View>
                 </View >
                 <View style={styles.block}>
@@ -37,7 +54,7 @@ export default class DetailsBody extends Component {
                 <View style={styles.block}>
                     <View style={styles.overviewWrapper}>
                         <Text style={styles.overviewTitle}>TỔNG QUAN</Text>
-                        <Text>{contentText}</Text>
+                        <Text>{this.state.place.detail}</Text>
                     </View>
                 </View>
             </View >

@@ -8,7 +8,12 @@ const { height, width } = Dimensions.get('window');
 export default class ItemHorizontal extends Component {
     goToDetails() {
         const { navigator } = this.props;
-        navigator.push({ name: 'home_details' });
+        navigator.push({
+            name: 'home_details',
+            id: this.props.id,
+            imgSource: this.props.imgSource,
+            title: this.props.title
+        });
     }
 
     render() {
@@ -18,7 +23,7 @@ export default class ItemHorizontal extends Component {
             <TouchableOpacity
                 style={item}
                 onPress={this.goToDetails.bind(this)} >
-                <Image style={thumb} source={imgSource} />
+                <Image style={thumb} source={{ uri: imgSource }} />
                 <Text style={titleStyle}>
                     {title}
                 </Text>

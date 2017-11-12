@@ -5,25 +5,45 @@ import {
 } from 'react-native';
 
 import ItemHorizontal from './shared/item-horizontal';
+import { api } from '../utils';
 
 const { height, width } = Dimensions.get('window');
 
-const data = [
-    { id: 1, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 2, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 3, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 4, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 5, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 6, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') }
-]
-
 export default class MyListView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true,
+        }
+    }
+
     gotoListLv1() {
         const { navigator } = this.props;
-        navigator.push({ name: 'list_lv1' });
+        navigator.push({ name: 'list_lv1', title: this.props.listTitle, id: this.props.id });
+    }
+
+    componentDidMount() {
+        let url = api + '/places/category?category_id=' + this.props.id + '&l=4&p=0';
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    placeList: responseJson.places
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View />
+            );
+        }
+
         const { listTitle, navigator } = this.props;
         const { wrapper, row, title, viewMore } = styles;
         return (
@@ -36,16 +56,17 @@ export default class MyListView extends Component {
                 </View>
                 <FlatList
                     horizontal
-                    data={data}
+                    data={this.state.placeList}
                     renderItem={({ item }) => {
                         return <ItemHorizontal
-                            title={item.title}
-                            imgSource={item.imgSource}
-                            numRate={4}
+                            id={item._id}
+                            navigator={navigator}
+                            title={item.place_name}
+                            imgSource={item.thumbnail}
+                            numRate={item.rating}
                             numStar={3}
-                            distance={'69,96'}
-                            tag={'an uong, mua sam'}
-                            navigator={this.props.navigator} />
+                            distance={'70'}
+                            tag={item.tag} />
                     }}
                     keyExtractor={(item, index) => item.id}
                     showsHorizontalScrollIndicator={false} />

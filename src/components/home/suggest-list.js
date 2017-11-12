@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {
     View, Image, Dimensions, StyleSheet,
-    ListView, Text, TouchableOpacity, FlatList,
-    ActivityIndicator
+    ListView, Text, TouchableOpacity, FlatList
 } from 'react-native';
 
-import ItemHorizontal from '../shared/item-horizontal';
-import { api } from '../../utils';
+import ItemHorizontal from './shared/item-horizontal';
+import { api } from '../utils';
 
 const { height, width } = Dimensions.get('window');
 
@@ -18,13 +17,8 @@ export default class MyListView extends Component {
         }
     }
 
-    gotoListLv2() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'list_lv2', id: this.props.id });
-    }
-
     componentDidMount() {
-        let url = api + '/places/filter?sub_category_id=' + this.props.id + '&l=4&p=0';
+        let url = api + '/places/suggestion';
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -51,9 +45,7 @@ export default class MyListView extends Component {
             <View style={wrapper}>
                 <View style={row}>
                     <Text style={title}>{listTitle}</Text>
-                    <TouchableOpacity onPress={this.gotoListLv2.bind(this)} >
-                        <Text style={viewMore}>Xem thêm</Text>
-                    </TouchableOpacity>
+                    <Text />
                 </View>
                 <FlatList
                     horizontal
@@ -66,7 +58,7 @@ export default class MyListView extends Component {
                             imgSource={item.thumbnail}
                             numRate={item.rating}
                             numStar={3}
-                            distance={'69,96'}
+                            distance={'70'}
                             tag={item.tag} />
                     }}
                     keyExtractor={(item, index) => item.id}

@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
 
-import thumbnail from '../../../images/thumbnail.png';
-
 const { height, width } = Dimensions.get('window');
 
 export default class ItemVertical extends Component {
     render() {
         const { wrapper, thumbnailStyle, textGroup, titleStyle, rateWrapper,
-            addressStyle, tagStyle, distanceStyle, rateStyle } = styles;
+            addressStyle, tagStyle, distanceStyle, rateStyle, row } = styles;
+            let tmp = this.props.address;
+        let address = tmp < 30 ? tmp : tmp.substring(0, 30) + '...';
         return (
             <View style={wrapper}>
-                <Image source={thumbnail} style={thumbnailStyle} />
-                <View style={textGroup}>
-                    <Text style={titleStyle}>Cù Lao Chàm</Text>
-                    <Text style={addressStyle}>Cù Lao Chàm Tân Hiệp Hội An</Text>
-                    <Text style={tagStyle}>tham quan, du lich</Text>
-                    <Text style={distanceStyle}>39,7 km</Text>
+                <View style={row}>
+                    <Image source={{uri: this.props.thumbnail }} style={thumbnailStyle} />
+                    <View style={textGroup}>
+                        <Text style={titleStyle}>{this.props.name}</Text>
+                        <Text style={addressStyle}>{address}</Text>
+                        <Text style={tagStyle}>{this.props.tag}</Text>
+                        <Text style={distanceStyle}>39,7 km</Text>
+                    </View>
                 </View>
                 <View style={rateWrapper}>
-                    <Text style={rateStyle}>4,7</Text>
+                    <Text style={rateStyle}>{this.props.numStar}</Text>
                 </View>
             </View>
         );
@@ -31,18 +33,24 @@ const styles = StyleSheet.create({
     {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: height / 30,
+        padding: height / 50,
         borderBottomWidth: 0.5,
         borderBottomColor: '#8693a8'
+    },
+    row:
+    {
+        flexDirection: 'row'
     },
     thumbnailStyle:
     {
         height: width / 4.5,
-        width: width / 4.5
+        width: width / 4.5,
+        borderRadius: width / 100
     },
     textGroup:
     {
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingLeft: width / 50
     },
     titleStyle:
     {

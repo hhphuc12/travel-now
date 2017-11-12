@@ -35,10 +35,10 @@ export default class ListLv2Home extends Component {
     }
 
     _renderScrollViewContent() {
-        const { navigator } = this.props;
+        const { navigator, id } = this.props;
         return (
             <View style={styles.scrollViewContent}>
-                <ListBody navigator={navigator} />
+                <ListBody navigator={navigator} id={id} />
             </View>
         );
     }

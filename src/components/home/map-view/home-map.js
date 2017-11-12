@@ -57,7 +57,8 @@ export default class HomeMap extends Component {
             },
             (error) => {
                 console.log(error);
-            }
+            },
+            { enableHighAccuracy: false, timeout: 2000, maximumAge: 10000 }
         );
     }
 

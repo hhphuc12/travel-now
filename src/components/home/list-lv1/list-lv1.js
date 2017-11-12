@@ -30,8 +30,7 @@ export default class ListLv1Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scrollY: new Animated.Value(0),
-            place: 'vietnam'
+            scrollY: new Animated.Value(0)
         };
     }
 
@@ -39,7 +38,7 @@ export default class ListLv1Home extends Component {
         const { navigator } = this.props;
         return (
             <View style={styles.scrollViewContent}>
-                <ListBody navigator={navigator} />
+                <ListBody navigator={navigator} id={this.props.id} />
             </View>
         );
     }
@@ -99,7 +98,7 @@ export default class ListLv1Home extends Component {
                 </Animated.View>
                 <Animated.View style={styles.bar} >
                     <BackButton navigator={this.props.navigator} />
-                    <Text style={styles.titleStyle}>Địa điểm</Text>
+                    <Text style={styles.titleStyle}>{this.props.title}</Text>
                     <SearchButton navigator={this.props.navigator} />
                 </Animated.View>
             </View>
