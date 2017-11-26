@@ -12,7 +12,7 @@ export default class Body extends Component {
                 name: 'Yêu thích'
             },
             {
-                img: require('../../images/ic_star_menu.png'),
+                img: require('../../images/ic_star_rate.png'),
                 name: 'Đánh giá'
             },
             {

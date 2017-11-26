@@ -3,48 +3,35 @@ import { View, Image, Dimensions, StyleSheet } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
-import star0 from '../../images/star_0.png';
-import star1 from '../../images/star_1.png';
-import star2 from '../../images/star_2.png';
-import star3 from '../../images/star_3.png';
-import star4 from '../../images/star_4.png';
-import star5 from '../../images/star_5.png';
+import star from '../../images/ic_star_rate.png';
+import starFilled from '../../images/ic_star_rate_filled.png';
 
 export default class RateView extends Component {
     render() {
-        let rateViewJSX;
-        switch (this.props.numStar) {
-            case 0:
-                rateViewJSX = (<Image source={star0} style={styles.rateView} />)
-                break;
-            case 1:
-                rateViewJSX = (<Image source={star1} style={styles.rateView} />)
-                break;
-            case 2:
-                rateViewJSX = (<Image source={star2} style={styles.rateView} />)
-                break;
-            case 3:
-                rateViewJSX = (<Image source={star3} style={styles.rateView} />)
-                break;
-            case 4:
-                rateViewJSX = (<Image source={star4} style={styles.rateView} />)
-                break;
-            default:
-                rateViewJSX = (<Image source={star5} style={styles.rateView} />)
-                break;
+        let rateViewJSX = [];
+        let { numStar } = this.props;
+        for (let i = 0; i < 5; i++) {
+            rateViewJSX.push(i < numStar ? <Image style={styles.icon} source={starFilled} />
+                : <Image style={styles.icon} source={star} />);
         }
         return (
             <View>
-                { rateViewJSX }
+                <View style={styles.wrapper}>
+                    {rateViewJSX}
+                </View>
             </View>
         );
     }
 }
 
 var styles = StyleSheet.create({
-    rateView:
-    {
-        width: width * 0.2,
-        height: width * 0.2 * 128 / 688
+    icon: {
+        height: height / 35,
+        width: height / 35
+    },
+    wrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: height / 6.5
     }
 });

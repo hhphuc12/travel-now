@@ -11,14 +11,19 @@ export default class TaiKhoan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: true
+            loggedIn: false
         };
+    }
+    
+    goToAuth() {
+        const { navigator } = this.props;
+        navigator.push({ name: 'authentication' });
     }
 
     render() {
         let nameView = this.state.loggedIn ?
             (<Text style={styles.text}>Vũ Trần Bích Du</Text>) :
-            (<TouchableOpacity>
+            (<TouchableOpacity onPress={this.goToAuth.bind(this)}>
                 <Text style={styles.text}>Đăng nhập</Text>
             </TouchableOpacity>);
         return (
