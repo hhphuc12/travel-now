@@ -10,7 +10,6 @@ import HomeDetails from './home/details/details';
 import Details from './share-components/details';
 import CheckConnect from './check-connect';
 import Authentication from './tai-khoan/authentication/authentication';
-import Test from './share-components/rate-touch';
 
 export default class App extends Component {
     render() {
@@ -30,10 +29,9 @@ export default class App extends Component {
                                 id={route.id}
                                 imgSource={route.imgSource}
                                 title={route.title} />;
-                        case 'other_details': return <Details navigator={navigator} />;
+                        case 'other_details': return <Details navigator={navigator} id={route.id} />;
                         case 'check_connect': return <CheckConnect navigator={navigator} />;
                         case 'authentication': return <Authentication navigator={navigator} />;
-                        case 'test': return <Test />
                         default: return <TabView navigator={navigator} />;
                     }
                 }}

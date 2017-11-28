@@ -14,7 +14,6 @@ export default class ListBody extends Component {
 
     componentDidMount() {
         let url = api + '/places/filter?sub_category_id=' + this.props.id;
-        console.log(url);
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

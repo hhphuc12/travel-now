@@ -44,7 +44,7 @@ export default class HomeContent extends Component {
             <View>
                 <Menu navigator={navigator} />
                 <SuggestList listTitle='Gợi ý' navigator={navigator} />
-                    {myListView}
+                {myListView}
             </View>
         );
     }

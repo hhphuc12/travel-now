@@ -8,18 +8,16 @@ const { height, width } = Dimensions.get('window');
 export default class ItemListview extends Component {
     gotoDetails() {
         const { navigator } = this.props;
-        navigator.push({ name: 'other_details' });
+        navigator.push({ name: 'other_details', id: this.props.id });
     }
 
     render() {
-        const { imgSource, title } = this.props;
-        const { item, thumb, titleStyle } = styles;
+        const { imgSource, title, date, navigator } = this.props;
+        const { item, thumb, titleStyle, dateStyle } = styles;
         return (
             <TouchableOpacity style={item} onPress={this.gotoDetails.bind(this)} >
-                <Image style={thumb} source={imgSource} />
-                <Text style={titleStyle}>
-                    {title}
-                </Text>
+                <Image style={thumb} source={{ uri: imgSource }} />
+                <Text style={titleStyle}>{title}</Text>
             </TouchableOpacity>
         );
     }
@@ -37,9 +35,11 @@ var styles = StyleSheet.create({
         borderRadius: width / 150
     },
     titleStyle: {
+        width: width * 0.6,
         flex: 1,
         paddingTop: 10,
         fontWeight: 'bold',
-        color: 'black'
+        color: 'black',
+        flexWrap: 'wrap'
     }
 });

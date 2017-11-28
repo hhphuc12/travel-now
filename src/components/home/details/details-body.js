@@ -5,7 +5,6 @@ import Stars from 'react-native-stars';
 
 import profile from '../../../images/profile.png';
 import btSend from '../../../images/ic_send.png';
-import RateTouch from '../../share-components/rate-touch';
 
 const { height, width } = Dimensions.get('window');
 
@@ -70,9 +69,9 @@ export default class DetailsBody extends Component {
                             spacing={4}
                             starSize={40}
                             count={5}
-                            fullStar={require('../../../images/ic_star_rate_filled.png')}
-                            emptyStar={require('../../../images/ic_star_rate.png')}
-                            halfStar={require('../../../images/ic_star_rate_half.png')} />
+                            fullStar={require('../../../images/ic_rate_filled.png')}
+                            emptyStar={require('../../../images/ic_rate.png')}
+                            halfStar={require('../../../images/ic_rate_half.png')} />
                         {this.state.numStar == 0 ? <View />
                             : <TouchableOpacity>
                                 <Text style={styles.sendNumStar}>GỬI ĐÁNH GIÁ</Text>

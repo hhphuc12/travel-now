@@ -5,34 +5,48 @@ import {
 } from 'react-native';
 
 import ItemListview from './item-listview';
+import { api } from '../../components/utils';
 
 const { height, width } = Dimensions.get('window');
 
-const data = [
-    { id: 1, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 2, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 3, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 4, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 5, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') },
-    { id: 6, title: 'Lorem Ipsum', imgSource: require('../../images/thumbnail.png') }
-]
-
 export default class MyListView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true,
+            news: []
+        }
+    }
+
+    componentDidMount() {
+        return fetch(`${api}/news/filter?category_id=${this.props.id}&province_id=all`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    news: responseJson.news
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     render() {
-        const { listTitle } = this.props;
+        const { listTitle, navigator } = this.props;
         const { wrapper, row, title, viewMore } = styles;
         return (
             <View style={wrapper}>
                 <Text style={title}>{listTitle}</Text>
                 <FlatList
                     horizontal
-                    data={data}
+                    data={this.state.news}
                     renderItem={({ item }) => {
                         return <ItemListview
+                            id={item._id}
                             title={item.title}
-                            imgSource={item.imgSource}
-                            navigator={this.props.navigator} />
+                            imgSource={item.thumbnail}
+                            navigator={navigator} />
                     }}
                     keyExtractor={(item, index) => item.id}
                     showsHorizontalScrollIndicator={false}

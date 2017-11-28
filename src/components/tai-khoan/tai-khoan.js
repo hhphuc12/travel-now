@@ -11,18 +11,42 @@ export default class TaiKhoan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false
+            loggedIn: false,
+            username: ''
         };
     }
-    
+
     goToAuth() {
         const { navigator } = this.props;
         navigator.push({ name: 'authentication' });
     }
 
+    componentDidMount() {
+        async function getUsername() {
+            try {
+                let value = await AsyncStorage.getItem('travel_now_username');
+                if (value !== '') {
+                    this.setState({ loggedIn: true, username: value });
+                }
+            } catch (error) { }
+        }
+        getUsername();
+        console.log(this.state.username + '-------------');
+    }
+
     render() {
+        // async function getUsername() {
+        //     try {
+        //         let value = await AsyncStorage.getItem('travel_now_username');
+        //         if (value !== '') {
+        //             this.setState({ loggedIn: true, username: value });
+        //         }
+        //     } catch (error) { }
+        // }
+        // getUsername();
+        // console.log(this.state.username + '-------------');
         let nameView = this.state.loggedIn ?
-            (<Text style={styles.text}>Vũ Trần Bích Du</Text>) :
+            (<Text style={styles.text}>{this.state.username}</Text>) :
             (<TouchableOpacity onPress={this.goToAuth.bind(this)}>
                 <Text style={styles.text}>Đăng nhập</Text>
             </TouchableOpacity>);
@@ -51,57 +75,57 @@ export default class TaiKhoan extends Component {
 
 const styles = StyleSheet.create({
     wrapper:
-    {
-        flex: 1
-    },
+        {
+            flex: 1
+        },
     row:
-    {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: height / 50,
-        backgroundColor: '#00c9ff'
-    },
+        {
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: height / 50,
+            backgroundColor: '#00c9ff'
+        },
     title:
-    {
-        fontWeight: 'bold',
-        fontSize: height / 35,
-        color: 'white'
-    },
+        {
+            fontWeight: 'bold',
+            fontSize: height / 35,
+            color: 'white'
+        },
     profile:
-    {
-        width: width / 6,
-        height: width / 6,
-        borderRadius: width / 12,
-        margin: height / 40
-    },
+        {
+            width: width / 6,
+            height: width / 6,
+            borderRadius: width / 12,
+            margin: height / 40
+        },
     text:
-    {
-        color: 'black',
-        fontSize: height / 40,
-    },
+        {
+            color: 'black',
+            fontSize: height / 40,
+        },
     account:
-    {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
+        {
+            flexDirection: 'row',
+            alignItems: 'center'
+        },
     line:
-    {
-        width: width * 0.94,
-        height: 1,
-        backgroundColor: '#8d8d8d',
-        marginLeft: width * 0.03
-    },
+        {
+            width: width * 0.94,
+            height: 1,
+            backgroundColor: '#8d8d8d',
+            marginLeft: width * 0.03
+        },
     info:
-    {
-        flex: 1,
-        justifyContent: 'space-between'
-    },
+        {
+            flex: 1,
+            justifyContent: 'space-between'
+        },
     infoWrapper:
-    {
-        alignItems: 'center'
-    },
+        {
+            alignItems: 'center'
+        },
     textInfo:
-    {
-        fontSize: height / 50
-    }
+        {
+            fontSize: height / 50
+        }
 });

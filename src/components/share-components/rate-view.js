@@ -3,8 +3,8 @@ import { View, Image, Dimensions, StyleSheet } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
-import star from '../../images/ic_star_rate.png';
-import starFilled from '../../images/ic_star_rate_filled.png';
+import star from '../../images/ic_rate.png';
+import starFilled from '../../images/ic_rate_filled.png';
 
 export default class RateView extends Component {
     render() {

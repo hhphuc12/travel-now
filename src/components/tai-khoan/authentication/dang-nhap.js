@@ -1,23 +1,66 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 
+import { api } from '../../utils';
+
 const { height, width } = Dimensions.get('window');
 
 export default class DangNhap extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            response: {}
+        }
+    }
+
+    async goToTaiKhoan() {
+        try {
+            await AsyncStorage.setItem('travel_now_username', this.state.username);
+        } catch (error) { }
+        const { navigator } = this.props;
+        navigator.pop();
+    }
+
+    signIn() {
+        let url = `${api}/account/get-account?username=${this.state.email}&password=${this.state.password}`;
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.status === 200) {
+                    this.setState({ username: responseJson.account.username },
+                        () => this.goToTaiKhoan());
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     render() {
+        let { response } = this.state;
+        if (response !== {}) {
+            if (response.status === 200) {
+                this.goToTaiKhoan(response.account.username);
+            }
+        }
         return (
             <View style={styles.wrapper}>
                 <TextInput
                     style={styles.textInput}
-                    placeholder='Enter your email'
+                    placeholder='Enter your username'
                     underlineColorAndroid='white'
+                    onChangeText={email => this.setState({ email: email })}
                 />
                 <TextInput
                     style={styles.textInput}
                     placeholder='Enter your password'
                     underlineColorAndroid='white'
+                    secureTextEntry
+                    onChangeText={password => this.setState({ password: password })}
                 />
-                <TouchableOpacity style={styles.btnInput}>
+                <TouchableOpacity style={styles.btnInput} onPress={this.signIn.bind(this)}>
                     <Text style={styles.btText}>Đăng nhập</Text>
                 </TouchableOpacity>
             </View>

@@ -6,6 +6,7 @@ import SearchButton from '../share-components/search-button';
 import Item from './item';
 import MyListView from '../home/list-view';
 import icEmpty from '../../images/ic_empty.png';
+import Body from './co-gi-moi-body';
 
 const { height, width } = Dimensions.get('window');
 
@@ -20,11 +21,7 @@ export default class CoGiMoi extends Component {
                     <Text style={title}>Có gì mới</Text>
                     <SearchButton navigator={navigator} />
                 </View>
-                <ScrollView style={scrollView} showsVerticalScrollIndicator={false}>
-                    <Item navigator={navigator} />
-                    <Item navigator={navigator} />
-                    <Item navigator={navigator} />
-                </ScrollView>
+                <Body navigator={navigator} />
             </View>
         );
     }
@@ -53,9 +50,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: height / 50,
         backgroundColor: '#00c9ff'
-    },
-    scrollView:
-    {
-
     }
 });

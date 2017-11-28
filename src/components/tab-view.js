@@ -75,7 +75,7 @@ export default class TabView extends Component {
                         renderSelectedIcon={() => <Image source={icAccountS} style={iconTab} />}
                         selectedTitleStyle={{ color: '#00c9ff' }}
                     >
-                        <TaiKhoan navigator={navigator} />
+                        <TaiKhoan navigator={navigator} hihi={this.props.hihi} />
                     </TabNavigator.Item>
                 </TabNavigator>
             </View>

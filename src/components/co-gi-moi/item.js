@@ -2,27 +2,26 @@ import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 
 import logo from '../../images/logo.png';
-import thumbnail from '../../images/thumbnail.png';
-
-const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
-    ' Donec nec rutrum augue. Proin hendrerit tortor nec accumsan cursus.' +
-    ' Sed faucibus pellentesque odio, a scelerisque tortor aliquam sed.' +
-    'Curabitur eget pharetra erat. Sed augue dui, fringilla sit amet nulla id,' +
-    'tristique vestibulum arcu. Class aptent taciti sociosqu ad litora torquent' +
-    'per conubia nostra, per inceptos himenaeos. Phasellus elementum feugiat felis';
 
 const { height, width } = Dimensions.get('window');
 
 export default class Item extends Component {
     gotoDetails() {
         const { navigator } = this.props;
-        navigator.push({ name: 'other_details' });
+        navigator.push({
+            name: 'home_details',
+            navigator: navigator,
+            id: this.props.id,
+            imgSource: this.props.thumbnail,
+            title: this.props.placeName
+        });
     }
 
     render() {
         const { wrapper, header, headerText, dateStyle,
             logoStyle, province, titleStyle, thumbnailStyle,
             contentStyle, sourceStyle } = styles;
+        const { placeName, thumbnail, detail, tag } = this.props;
         return (
             <View style={wrapper} onPress={this.gotoDetails.bind(this)} >
                 <View style={header}>
@@ -33,13 +32,13 @@ export default class Item extends Component {
                     </View>
                 </View>
                 <TouchableOpacity onPress={this.gotoDetails.bind(this)} >
-                    <Image source={thumbnail} style={thumbnailStyle}>
+                    <Image source={{ uri: thumbnail }} style={thumbnailStyle}>
                         <View style={{ flex: 1 }} />
-                        <Text style={titleStyle}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec rutrum augue</Text>
+                        <Text style={titleStyle}>{placeName}</Text>
                     </Image>
                 </TouchableOpacity>
-                <Text style={contentStyle}>{content}</Text>
-                <Text style={sourceStyle}>Nguồn: thiendia</Text>
+                <Text style={contentStyle}>{detail}</Text>
+                <Text style={sourceStyle}>{`tag: ${tag}`}</Text>
             </View>
         );
     }

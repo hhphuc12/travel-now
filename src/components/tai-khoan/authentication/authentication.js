@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import BackButton from '../../share-components/back-button';
+import icBack from '../../../images/ic_back.png';
 import icEmpty from '../../../images/ic_empty.png';
 import DangKy from './dang-ky';
 import DangNhap from './dang-nhap';
@@ -30,11 +30,14 @@ export default class Authentication extends Component {
 
     render() {
         let { isLogin } = this.state;
-        let inputJSX = this.state.isLogin ? (<DangNhap />) : (<DangKy />);
+        let { navigator } = this.props;
+        let inputJSX = this.state.isLogin ? (<DangNhap navigator={navigator} />) : (<DangKy navigator={navigator} />);
         return (
             <View style={styles.wrapper}>
                 <View style={styles.row}>
-                    <BackButton navigator={this.props.navigator} />
+                    <TouchableOpacity onPress={this.goBack.bind(this)}>
+                        <Image source={icBack} style={styles.icon} />
+                    </TouchableOpacity>
                     <Text style={styles.title}>{isLogin ? 'Đăng nhập' : 'Đăng ký'}</Text>
                     <Image source={icEmpty} style={styles.icon} />
                 </View>
