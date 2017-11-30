@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Dimensions, StyleSheet, ListView, Text, TouchableOpacity } from 'react-native';
+import Stars from 'react-native-stars';
 
 import RateView from '../../share-components/rate-view';
 
@@ -28,7 +29,16 @@ export default class ItemHorizontal extends Component {
                     {title}
                 </Text>
                 <View style={row}>
-                    <RateView numStar={numStar} />
+                    {/* <RateView numStar={numStar} /> */}
+                    <Stars
+                        value={numStar}
+                        half={true}
+                        spacing={2}
+                        starSize={15}
+                        count={5}
+                        fullStar={require('../../../images/ic_rate_filled.png')}
+                        emptyStar={require('../../../images/ic_rate.png')}
+                        halfStar={require('../../../images/ic_rate_half.png')} />
                     <Text style={numRateStyle}>{numRate} đánh giá</Text>
                 </View>
                 <View style={rowTag}>

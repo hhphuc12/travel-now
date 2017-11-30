@@ -21,8 +21,8 @@ export default class HomeMap extends Component {
             {
                 latitude: 0,
                 longitude: 0,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01
+                latitudeDelta: 0.06,
+                longitudeDelta: 0.06
             },
             marker:
             {

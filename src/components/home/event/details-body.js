@@ -14,19 +14,19 @@ export default class DetailsBody extends Component {
         super(props);
         this.state = {
             isLoading: true,
-            numStar: 0
+            event: null,
         }
     }
 
     componentDidMount() {
-        let url = `${api}/place/${this.props.id}`;
+        let url = `${api}/event/${this.props.id}`;
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
                     isLoading: false,
-                    place: responseJson.place,
-                    location: responseJson.geo.geometry.location
+                    event: responseJson.event,
+                    location: responseJson.geo.geometry.location,
                 });
             })
             .catch((error) => {
@@ -47,47 +47,24 @@ export default class DetailsBody extends Component {
         return (
             <View>
                 <View style={styles.block}>
-                    <View style={styles.propsRow}>
-                        <Image source={require('../../../images/ic_star.png')} style={styles.icon} />
-                        <Text style={styles.propsText}>{`tag: ${this.state.place.tag}`}</Text>
-                    </View>
-                    <View style={styles.propsRow}>
-                        <Image source={require('../../../images/ic_directions.png')} style={styles.icon} />
-                        <Text style={styles.propsText}>{this.state.place.address}</Text>
+                    <View style={styles.organizationWrapper}>
+                        <View>
+                            <Text style={styles.name}>{this.state.event.event_name}</Text>
+                            <Text style={styles.orgaBy}>{`Tổ chức bởi ${this.state.event.organization}`}</Text>
+                        </View>
+                        <View style={styles.orgaDayWrapper}>
+                            <Text style={styles.orgaDay}>{this.state.event.organization_day}</Text>
+                        </View>
                     </View>
                 </View>
                 <View style={styles.block}>
-                    <View style={styles.evaluate}>
-                        <View style={styles.profileWrapper}>
-                            <View style={styles.line} />
-                            <Image source={profile} style={styles.profile} />
-                            <View style={styles.line} />
-                        </View>
-                        <Text style={styles.evalText}>Xếp hạng địa điểm này</Text>
-                        <Stars
-                            half={true}
-                            rating={0}
-                            update={(val) => { this.setState({ numStar: val }) }}
-                            spacing={4}
-                            starSize={40}
-                            count={5}
-                            fullStar={require('../../../images/ic_rate_filled.png')}
-                            emptyStar={require('../../../images/ic_rate.png')}
-                            halfStar={require('../../../images/ic_rate_half.png')} />
-                        {this.state.numStar == 0 ? <View />
-                            : <TouchableOpacity>
-                                <Text style={styles.sendNumStar}>GỬI ĐÁNH GIÁ</Text>
-                            </TouchableOpacity>}
-                        <Text style={styles.evalText}>hoặc để lại cảm nhận của bạn</Text>
-                        <View style={styles.cmtRow}>
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder='Viết bình luận...'
-                                underlineColorAndroid='white' />
-                            <TouchableOpacity>
-                                <Image source={btSend} style={styles.btSend} />
-                            </TouchableOpacity>
-                        </View>
+                    <View style={styles.propsRow}>
+                        <Image source={require('../../../images/ic_star.png')} style={styles.icon} />
+                        <Text style={styles.propsText}>{`tag: ${this.state.event.tag}`}</Text>
+                    </View>
+                    <View style={styles.propsRow}>
+                        <Image source={require('../../../images/ic_directions.png')} style={styles.icon} />
+                        <Text style={styles.propsText}>{this.state.event.address}</Text>
                     </View>
                 </View>
                 <View style={styles.block}>
@@ -109,7 +86,7 @@ export default class DetailsBody extends Component {
                 <View style={styles.block}>
                     <View style={styles.overviewWrapper}>
                         <Text style={styles.overviewTitle}>TỔNG QUAN</Text>
-                        <Text>{this.state.place.detail}</Text>
+                        <Text>{this.state.event.detail}</Text>
                     </View>
                 </View>
             </View >
@@ -118,6 +95,29 @@ export default class DetailsBody extends Component {
 }
 
 const styles = StyleSheet.create({
+    organizationWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: height / 80
+    },
+    name: {
+        fontWeight: 'bold',
+        color: 'black',
+        fontSize: height / 35,
+    },
+    orgaDay: {
+        backgroundColor: '#00c9ff',
+        padding: height / 120,
+        borderRadius: height / 120,
+    },
+    orgaDayWrapper: {
+        justifyContent: 'center',
+    },
+    orgaBy: {
+        textDecorationLine: 'underline',
+        fontStyle: 'italic',
+        color: 'blue'
+    },
     row: {
         flexDirection: 'row',
         justifyContent: 'center',

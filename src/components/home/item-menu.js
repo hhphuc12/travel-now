@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { View, Image, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 
+import EventView from './event/event';
+
 const { height, width } = Dimensions.get('window');
 
 export default class ItemMenu extends Component {
     gotoListLv1() {
-        const { navigator } = this.props;
-        navigator.push({ name: 'list_lv1' });
+        const { navigator, id } = this.props;
+        if (!id) {
+            navigator.push({ name: 'events' });
+        } else {
+            navigator.push({ name: 'list_lv1', title: this.props.title, id: id });
+        }
     }
 
     render() {

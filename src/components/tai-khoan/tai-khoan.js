@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity, AsyncStorage } from 'react-native';
 
 import icEmpty from '../../images/ic_empty.png';
 import ThaoTac from './thao-tac';
@@ -11,8 +11,7 @@ export default class TaiKhoan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false,
-            username: ''
+            loggedIn: false
         };
     }
 
@@ -20,8 +19,7 @@ export default class TaiKhoan extends Component {
         const { navigator } = this.props;
         navigator.push({ name: 'authentication' });
     }
-
-    componentDidMount() {
+    render() {
         async function getUsername() {
             try {
                 let value = await AsyncStorage.getItem('travel_now_username');
@@ -31,20 +29,8 @@ export default class TaiKhoan extends Component {
             } catch (error) { }
         }
         getUsername();
-        console.log(this.state.username + '-------------');
-    }
-
-    render() {
-        // async function getUsername() {
-        //     try {
-        //         let value = await AsyncStorage.getItem('travel_now_username');
-        //         if (value !== '') {
-        //             this.setState({ loggedIn: true, username: value });
-        //         }
-        //     } catch (error) { }
-        // }
-        // getUsername();
-        // console.log(this.state.username + '-------------');
+        console.log(this.state.loggedIn);
+        console.log(this.state.username);
         let nameView = this.state.loggedIn ?
             (<Text style={styles.text}>{this.state.username}</Text>) :
             (<TouchableOpacity onPress={this.goToAuth.bind(this)}>

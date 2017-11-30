@@ -5,11 +5,14 @@ import TabView from './tab-view';
 import ListLv1Home from './home/list-lv1/list-lv1';
 import ListLv2Home from './home/list-lv2/list-lv2';
 import HomeMap from './home/map-view/home-map';
-import SearchResult from './search/search-result';
+import SearchResult from './search/search';
 import HomeDetails from './home/details/details';
 import Details from './share-components/details';
 import CheckConnect from './check-connect';
 import Authentication from './tai-khoan/authentication/authentication';
+import Events from './home/event/event';
+import EventDetails from './home/event/event-details';
+import Test from './test/wrapper';
 
 export default class App extends Component {
     render() {
@@ -32,6 +35,14 @@ export default class App extends Component {
                         case 'other_details': return <Details navigator={navigator} id={route.id} />;
                         case 'check_connect': return <CheckConnect navigator={navigator} />;
                         case 'authentication': return <Authentication navigator={navigator} />;
+                        case 'events': return <Events navigator={navigator} />;
+                        case 'event_details':
+                            return <EventDetails
+                                navigator={navigator}
+                                thumbnail={route.thumbnail}
+                                id={route.id}
+                                eventName={route.eventName} />
+                        case 'testing': return <Test navigator={navigator} />
                         default: return <TabView navigator={navigator} />;
                     }
                 }}

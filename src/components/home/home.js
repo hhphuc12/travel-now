@@ -16,7 +16,7 @@ export default class Home extends Component {
                         case 'home_map': return <HomeMap navigator={navigator} />;
                         case 'list_lv1': return <ListLv1 navigator={navigator} />;
                         case 'list_lv2': return <ListLv2 navigator={navigator} />;
-                        default: return <HomeMain navigator={navigator}/>;
+                        default: return <HomeMain navigator={navigator} />;
                     }
                 }}
             />

@@ -8,53 +8,44 @@ import Body from './body';
 
 const { height, width } = Dimensions.get('window');
 
-export default class KhamPha extends Component {
+export default class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            url: 'http://tlsg.tk/api/places/filter?name=',
-            result: (<Body url={'http://tlsg.tk/api/places/filter?name='} />)
+            text: ''
         }
     }
 
-    onCommit(text) {
-        this.setState({ result: (<Body url={'http://tlsg.tk/api/places/filter?name=' + text} />) })
-    }
-
     render() {
-        const { row, wrapper, textInput } = styles;
         const { navigator } = this.props;
         return (
-            <View style={wrapper}>
-                <View style={row}>
+            <View style={styles.wrapper}>
+                <View style={styles.row}>
                     <BackButton navigator={navigator} />
                     <TextInput
-                        style={textInput}
+                        style={styles.textInput}
                         placeholder='Tìm kiếm...'
                         placeholderTextColor='white'
                         underlineColorAndroid='transparent'
-                        onChangeText={text => this.onCommit(text) } />
+                        onChangeText={text => this.setState({ text: text })} />
                 </View>
-                <Body />
+                <Body text={this.state.text} />
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    wrapper:
-    {
+    wrapper: {
         flex: 1
     },
-    row:
-    {
+    row: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: height / 50,
         backgroundColor: '#00c9ff'
     },
-    textInput:
-    {
+    textInput: {
         fontSize: height / 40,
         backgroundColor: 'transparent',
         color: 'white',

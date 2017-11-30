@@ -41,7 +41,6 @@ export default class CoGiMoi extends Component {
             );
         }
         const { navigator } = this.props;
-        console.log(this.state.placeList);
         let listView = this.state.placeList.map(item =>
             (<Item
                 placeName={item.place_name}

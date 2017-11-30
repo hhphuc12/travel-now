@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 
+import { api } from '../utils';
 import ItemVertical from '../home/shared/item-vertical';
 
 export default class Body extends Component {
@@ -8,11 +9,26 @@ export default class Body extends Component {
         super(props);
         this.state = {
             isLoading: true,
+            places: null
         }
     }
 
+    componentWillReceiveProps() {
+        return fetch(`${api}/places/filter?name=${this.props.text}&l=6&p=0`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    places: responseJson.places
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     componentDidMount() {
-        return fetch(this.props.url)
+        return fetch(`${api}/places/filter?l=6&p=0`)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
@@ -33,23 +49,18 @@ export default class Body extends Component {
                 </View>
             );
         }
-
-        const { row, wrapper, textInput } = styles;
-        const { navigator } = this.props;
         const itemList = this.state.places.map(item =>
             (<ItemVertical
-                navigator={navigator}
+                navigator={this.props.navigator}
                 thumbnail={item.thumbnail}
                 name={item.place_name}
                 address={item.address}
                 numStar={item.rating}
                 tag={item.tag} />));
         return (
-            <View style={wrapper}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    {itemList}
-                </ScrollView>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {itemList}
+            </ScrollView>
         );
     }
 }

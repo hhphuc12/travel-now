@@ -26,13 +26,34 @@ const HEADER_MAX_HEIGHT = width * 375 / 540;
 const HEADER_MIN_HEIGHT = height / 12.4;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
+const provinceImgs = [
+    'http://static.asiawebdirect.com/m/bangkok/portals/vietnam/homepage/da-nang/pagePropertiesImage/da-nang-vietnam.jpg.jpg',
+    'http://places.com.vn/wp-content/uploads/2015/01/ve-may-bay-gia-re-di-vinh3.jpg',
+    'http://vietnamtourism.gov.vn/images/30nhathoducba1.jpg',
+    'https://touristguide.edu.vn/wp-content/uploads/2016/07/Hanoi-City-Tour-full-day-private2.jpg',
+    'http://sohanews.sohacdn.com/thumb_w/660/2017/photo1497166529849-1497166530006-0-0-409-660-crop-1497166563617.jpg',
+    'https://tourguide.edu.vn/wp-content/uploads/2015/10/kinh-thanh-hue-du-lich-vntour1.jpg',
+    'https://atoztravel.vn/wp-content/uploads/2016/03/geographical-location-7081.jpg',
+    'http://baotreonline.com/wp-content/uploads/2017/10/HOI-AN-LANTERN-4.jpg',
+    'http://static.asiawebdirect.com/m/bangkok/portals/vietnam/homepage/hai-phong/attractions/pagePropertiesImage/hai-phong-attractions.jpg.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/a/a5/VongXoayNga6_BinhDuong.jpg',
+    'http://vebay365.com.vn/image/data/BP.jpg',
+    'http://dailymaybay.vn/public/uploads/images/images/dai-ly-ve-may-bay-tai-binh-thuan-01.jpg',
+    'http://dulichbinhdinh.com.vn/uploads/news/2017_04/quang-trung-1.jpg',
+    'http://www.pcivietnam.org/uploads/news/13-3.jpg',
+    'http://timhieuvietnam.com/wp-content/uploads/2016/11/B%E1%BA%AFc-Giang-l%C3%A0-t%E1%BB%89nh-mi%E1%BB%81n-n%C3%BAi-trung-du-thu%E1%BB%99c-v%C3%B9ng-%C4%90%E1%BB%93ng-B%E1%BA%AFc-1.jpg',
+    'http://media.dulich24.com.vn/diemden/bac-kan-7458/tu-van-du-lich-bac-kan-1.jpg',
+    'https://www.quangbinhtravel.vn/wp-content/uploads/2016/08/song-son.jpg',
+];
+
 export default class HomeMain extends Component {
     constructor(props) {
         super(props);
         this.state = {
             scrollY: new Animated.Value(0),
             isLoading: true,
-            place: 'Đà Nẵng'
+            province: 'Đà Nẵng',
+            image: 'http://static.asiawebdirect.com/m/bangkok/portals/vietnam/homepage/da-nang/pagePropertiesImage/da-nang-vietnam.jpg.jpg',
         };
     }
 
@@ -55,10 +76,13 @@ export default class HomeMain extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
-                    isLoading: false,
-                    provinceList: responseJson
+                    provinces: responseJson
                 }, function () {
-                    // do something with new state
+                    let { provinces } = this.state;
+                    for (let i = 0; i < provinces.length; i++) {
+                        provinces[i].image = provinceImgs[i];
+                    }
+                    this.setState({ provinces: provinces, isLoading: false });
                 });
             })
             .catch((error) => {
@@ -91,8 +115,7 @@ export default class HomeMain extends Component {
                 </View>
             );
         }
-
-        const pickerItem = this.state.provinceList.map((item) =>
+        const pickerItem = this.state.provinces.map((item) =>
             (<Picker.Item label={item.province_name} value={item.province_name} />));
         return (
             <View style={styles.fill}>
@@ -121,7 +144,7 @@ export default class HomeMain extends Component {
                                 transform: [{ translateY: imageTranslate }],
                             },
                         ]}
-                        source={thumbnail}
+                        source={{ uri: this.state.image }}
                     />
                 </Animated.View>
                 <Animated.View style={styles.bar} >
@@ -130,8 +153,8 @@ export default class HomeMain extends Component {
                     </TouchableOpacity>
                     <View style={styles.picker_wrapper}>
                         <Picker style={styles.picker}
-                            selectedValue={this.state.place}
-                            onValueChange={(itemValue, itemIndex) => this.setState({ place: itemValue })}>
+                            selectedValue={this.state.province}
+                            onValueChange={(value, index) => this.setState({ province: value, image: this.state.provinces[index].image })}>
                             {pickerItem}
                         </Picker>
                     </View>

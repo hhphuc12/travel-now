@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
 
+import { sub30 } from '../../utils';
+import icStarWhite from '../../../images/ic_star_white.png';
+
 const { height, width } = Dimensions.get('window');
 
 export default class ItemVertical extends Component {
     render() {
-        const { wrapper, thumbnailStyle, textGroup, titleStyle, rateWrapper,
-            addressStyle, tagStyle, distanceStyle, rateStyle, row } = styles;
-            let tmp = this.props.address;
-        let address = tmp < 30 ? tmp : tmp.substring(0, 30) + '...';
+        const { wrapper, thumbnailStyle, textGroup, titleStyle, rateWrapper, rightWrapper,
+            addressStyle, tagStyle, distanceStyle, rateStyle, row, icon, rateConfig } = styles;
         return (
             <View style={wrapper}>
                 <View style={row}>
                     <Image source={{uri: this.props.thumbnail }} style={thumbnailStyle} />
                     <View style={textGroup}>
-                        <Text style={titleStyle}>{this.props.name}</Text>
-                        <Text style={addressStyle}>{address}</Text>
-                        <Text style={tagStyle}>{this.props.tag}</Text>
+                        <Text style={titleStyle}>{sub30(this.props.name)}</Text>
+                        <Text style={addressStyle}>{sub30(this.props.address)}</Text>
+                        <Text style={tagStyle}>{sub30(`tag: ${this.props.tag}`)}</Text>
                         <Text style={distanceStyle}>39,7 km</Text>
                     </View>
                 </View>
-                <View style={rateWrapper}>
-                    <Text style={rateStyle}>{this.props.numStar}</Text>
-                </View>
+                <View style={rightWrapper}>
+                    <View style={rateWrapper}>
+                        <Text style={rateStyle}>{this.props.numStar}</Text>
+                    </View>
+                </View>    
             </View>
         );
     }
@@ -65,19 +68,23 @@ const styles = StyleSheet.create({
     {
         color: '#fac917'
     },
-    distanceStyle:
-    {
-
-    },
     rateStyle:
     {
-        padding: height / 80,
-        backgroundColor: '#00c9ff',
         color: 'white',
-        borderRadius: height / 80,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: height / 35
     },
     rateWrapper:
+    {
+        justifyContent: 'center',
+        height: height / 18,
+        width: height / 18,
+        borderRadius: height / 100,
+        alignItems: 'center',
+        backgroundColor: '#00c9ff',
+        padding: height / 200
+    },
+    rightWrapper:
     {
         justifyContent: 'center'
     }

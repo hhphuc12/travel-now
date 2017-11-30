@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Dimensions, StyleSheet, AsyncStorage } from 'react-native';
 
 import { api } from '../../utils';
 
@@ -18,7 +18,9 @@ export default class DangNhap extends Component {
     async goToTaiKhoan() {
         try {
             await AsyncStorage.setItem('travel_now_username', this.state.username);
-        } catch (error) { }
+        } catch (error) {
+            console.log(error);
+        }
         const { navigator } = this.props;
         navigator.pop();
     }
@@ -29,8 +31,8 @@ export default class DangNhap extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.status === 200) {
-                    this.setState({ username: responseJson.account.username },
-                        () => this.goToTaiKhoan());
+                    this.setState({ username: responseJson.account.username });
+                    this.goToTaiKhoan();
                 }
             })
             .catch((error) => {
@@ -39,12 +41,6 @@ export default class DangNhap extends Component {
     }
 
     render() {
-        let { response } = this.state;
-        if (response !== {}) {
-            if (response.status === 200) {
-                this.goToTaiKhoan(response.account.username);
-            }
-        }
         return (
             <View style={styles.wrapper}>
                 <TextInput

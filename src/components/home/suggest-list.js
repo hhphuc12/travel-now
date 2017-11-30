@@ -56,8 +56,8 @@ export default class MyListView extends Component {
                             navigator={navigator}
                             title={item.place_name}
                             imgSource={item.thumbnail}
-                            numRate={item.rating}
-                            numStar={3}
+                            numStar={item.rating}
+                            numRate={3}
                             distance={'70'}
                             tag={item.tag} />
                     }}
