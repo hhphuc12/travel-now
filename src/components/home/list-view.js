@@ -23,13 +23,13 @@ export default class MyListView extends Component {
     }
 
     componentDidMount() {
-        let url = api + '/places/category?category_id=' + this.props.id + '&l=4&p=0';
+        let url = `${api}/places/filter?category_id=${this.props.id}&l=4&p=0&province_id=all`;
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({
                     isLoading: false,
-                    placeList: responseJson.places
+                    placeList: responseJson.places,
                 });
             })
             .catch((error) => {

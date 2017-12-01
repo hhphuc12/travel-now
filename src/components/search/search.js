@@ -29,7 +29,7 @@ export default class Search extends Component {
                         underlineColorAndroid='transparent'
                         onChangeText={text => this.setState({ text: text })} />
                 </View>
-                <Body text={this.state.text} />
+                <Body text={this.state.text} navigator={navigator} />
             </View>
         );
     }

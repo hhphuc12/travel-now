@@ -43,6 +43,7 @@ export default class ListBody extends Component {
                 name={item.place_name}
                 address={item.address}
                 numStar={item.rating}
+                id={item._id}
                 tag={item.tag} />));
         return (
             <View style={{ paddingTop: 5 }}>

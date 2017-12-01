@@ -12,7 +12,6 @@ import CheckConnect from './check-connect';
 import Authentication from './tai-khoan/authentication/authentication';
 import Events from './home/event/event';
 import EventDetails from './home/event/event-details';
-import Test from './test/wrapper';
 
 export default class App extends Component {
     render() {
@@ -41,8 +40,7 @@ export default class App extends Component {
                                 navigator={navigator}
                                 thumbnail={route.thumbnail}
                                 id={route.id}
-                                eventName={route.eventName} />
-                        case 'testing': return <Test navigator={navigator} />
+                                eventName={route.eventName} />;
                         default: return <TabView navigator={navigator} />;
                     }
                 }}

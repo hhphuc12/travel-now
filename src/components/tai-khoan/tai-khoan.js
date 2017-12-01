@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity, AsyncStorage } from 'react-native';
+import Cookie from 'react-native-cookie';
 
 import icEmpty from '../../images/ic_empty.png';
 import ThaoTac from './thao-tac';
 import profile from '../../images/profile.png';
+import { api } from '../utils';
 
 const { height, width } = Dimensions.get('window');
 
@@ -11,7 +13,7 @@ export default class TaiKhoan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false
+            getCookie: true
         };
     }
 
@@ -19,18 +21,26 @@ export default class TaiKhoan extends Component {
         const { navigator } = this.props;
         navigator.push({ name: 'authentication' });
     }
+
+    componentDidMount() {
+        let getUser = Cookie.get(api, 'username')
+            .then((cookie) => {
+                console.log('username', cookie);
+                this.setState({ username: cookie });
+            });
+        let getStatus = Cookie.get(api, 'loggedIn')
+            .then((cookie) => {
+                console.log('loggedIn', cookie);
+                this.setState({ loggedIn: cookie });
+            });
+        Promise.all(getUser, getStatus).then(() => this.setState({ getCookie: false }));
+    }
+
     render() {
-        async function getUsername() {
-            try {
-                let value = await AsyncStorage.getItem('travel_now_username');
-                if (value !== '') {
-                    this.setState({ loggedIn: true, username: value });
-                }
-            } catch (error) { }
+        if (this.state.getCookie) {
+            return <View />;
         }
-        getUsername();
-        console.log(this.state.loggedIn);
-        console.log(this.state.username);
+        console.log(this.state.loggedIn, this.state.username);
         let nameView = this.state.loggedIn ?
             (<Text style={styles.text}>{this.state.username}</Text>) :
             (<TouchableOpacity onPress={this.goToAuth.bind(this)}>
@@ -46,7 +56,7 @@ export default class TaiKhoan extends Component {
                     {nameView}
                 </View>
                 <View style={styles.line} />
-                <ThaoTac />
+                <ThaoTac navigator={this.props.navigator} />
                 <View style={styles.info}>
                     <View style={{ flex: 1 }} />
                     <View style={styles.infoWrapper}>

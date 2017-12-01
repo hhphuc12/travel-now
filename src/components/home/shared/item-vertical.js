@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { sub30 } from '../../utils';
 import icStarWhite from '../../../images/ic_star_white.png';
@@ -7,11 +7,21 @@ import icStarWhite from '../../../images/ic_star_white.png';
 const { height, width } = Dimensions.get('window');
 
 export default class ItemVertical extends Component {
+    goToDetail() {
+        const { navigator, id, thumbnail, name } = this.props;
+        navigator.push({
+            name: 'home_details',
+            title: name,
+            id: id,
+            imgSource: thumbnail,
+        });
+    }
+
     render() {
         const { wrapper, thumbnailStyle, textGroup, titleStyle, rateWrapper, rightWrapper,
             addressStyle, tagStyle, distanceStyle, rateStyle, row, icon, rateConfig } = styles;
         return (
-            <View style={wrapper}>
+            <TouchableOpacity style={wrapper} onPress={this.goToDetail.bind(this)}>
                 <View style={row}>
                     <Image source={{uri: this.props.thumbnail }} style={thumbnailStyle} />
                     <View style={textGroup}>
@@ -26,7 +36,7 @@ export default class ItemVertical extends Component {
                         <Text style={rateStyle}>{this.props.numStar}</Text>
                     </View>
                 </View>    
-            </View>
+            </TouchableOpacity>
         );
     }
 }

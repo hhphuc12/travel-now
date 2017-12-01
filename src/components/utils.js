@@ -8,3 +8,6 @@ export function backAndroid(navigator) {
 export function sub30(text) {
     return text.length < 30 ? text : (text.substring(0, 30) + '...');
 }
+export function subDate(text) {
+    return text.substring(0, 10);
+}

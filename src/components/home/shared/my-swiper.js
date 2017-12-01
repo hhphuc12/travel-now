@@ -8,24 +8,23 @@ const { height, width } = Dimensions.get('window');
 
 export default class MySwiper extends Component {
     render() {
+        if (typeof this.props.data === 'undefined') {
+            return <View />
+        }
+
+        console.log(this.props.data[0].thumbnail);
+        let itemJSX = this.props.data.map(item =>
+            (<Image source={{ uri: item.thumbnail }} style={styles.backgroundImage}>
+                <Text />
+                <Text style={styles.imgDes}>{item.place_name}</Text>
+            </Image>)
+        );
         return (
             <Swiper
                 showsPagination
                 width={wSwiper}
-                height={hSwiper}
-                 >
-                <Image source={thumbnail} style={styles.backgroundImage}>
-                    <Text />
-                    <Text style={styles.imgDes}>Little Dress</Text>
-                </Image>
-                <Image source={thumbnail} style={styles.backgroundImage}>
-                    <Text />
-                    <Text style={styles.imgDes}>Little Dress</Text>
-                </Image>
-                <Image source={thumbnail} style={styles.backgroundImage}>
-                    <Text />
-                    <Text style={styles.imgDes}>Little Dress</Text>
-                </Image>
+                height={hSwiper} >
+                { itemJSX }
             </Swiper>
         );
     }

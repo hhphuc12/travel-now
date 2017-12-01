@@ -6,6 +6,7 @@ import Stars from 'react-native-stars';
 import { api } from '../../utils';
 import profile from '../../../images/profile.png';
 import btSend from '../../../images/ic_send.png';
+import Reviews from './reviews';
 
 const { height, width } = Dimensions.get('window');
 
@@ -23,10 +24,14 @@ export default class DetailsBody extends Component {
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log(responseJson.reviews);
                 this.setState({
                     isLoading: false,
                     place: responseJson.place,
-                    location: responseJson.geo.geometry.location
+                    location: responseJson.geo.geometry.location,
+                    reviews: responseJson.reviews,
+                    relative: responseJson.relative,
+                    photos: responseJson.photos,
                 });
             })
             .catch((error) => {
@@ -44,6 +49,19 @@ export default class DetailsBody extends Component {
         }
 
         const { lat, lng } = this.state.location;
+        const { reviews } = this.state;
+        let reviewsJSX;
+        if (typeof reviews === 'undefined' || reviews.length === 0)
+            reviewsJSX = <Text>Hiện địa điểm này chưa có ai đánh giá, bạn có muốn trở thành người đầu tiên?</Text>
+        else {
+            reviewsJSX = reviews.map(item =>
+                <Reviews
+                    user={item.account.username}
+                    comment={item.comment}
+                    rating={item.rating}
+                    date={item.create_date} />
+            );
+        }
         return (
             <View>
                 <View style={styles.block}>
@@ -90,6 +108,12 @@ export default class DetailsBody extends Component {
                         </View>
                     </View>
                 </View>
+                <View style={styles.block}>
+                    <View style={styles.overviewWrapper}>    
+                        <Text style={styles.overviewTitle}>ĐÁNH GIÁ</Text>    
+                        {reviewsJSX}
+                    </View>
+                </View>    
                 <View style={styles.block}>
                     <MapView
                         style={styles.mapView}
@@ -185,7 +209,7 @@ const styles = StyleSheet.create({
         paddingLeft: width / 40,
         borderRadius: height / 10,
         borderWidth: 1,
-        borderColor: '#009cff'
+        borderColor: '#00c9ff'
     },
     evalText: {
         margin: height / 50

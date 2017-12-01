@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Dimensions, StyleSheet, AsyncStorage } from 'react-native';
+import Cookie from 'react-native-cookie';
 
 import { api } from '../../utils';
 
@@ -9,30 +10,23 @@ export default class DangNhap extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
-            response: {}
+            username: '',
+            password: ''
         }
-    }
-
-    async goToTaiKhoan() {
-        try {
-            await AsyncStorage.setItem('travel_now_username', this.state.username);
-        } catch (error) {
-            console.log(error);
-        }
-        const { navigator } = this.props;
-        navigator.pop();
     }
 
     signIn() {
-        let url = `${api}/account/get-account?username=${this.state.email}&password=${this.state.password}`;
+        let url = `${api}/account/get-account?username=${this.state.username}&password=${this.state.password}`;
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.status === 200) {
-                    this.setState({ username: responseJson.account.username });
-                    this.goToTaiKhoan();
+                    Cookie.set(api, 'username', responseJson.account.username)
+                        .then(() => Cookie.set(api, 'loggedIn', true))
+                        .then(() => {
+                            const { navigator } = this.props;
+                            navigator.pop();
+                        });
                 }
             })
             .catch((error) => {
@@ -47,7 +41,7 @@ export default class DangNhap extends Component {
                     style={styles.textInput}
                     placeholder='Enter your username'
                     underlineColorAndroid='white'
-                    onChangeText={email => this.setState({ email: email })}
+                    onChangeText={username => this.setState({ username: username })}
                 />
                 <TextInput
                     style={styles.textInput}

@@ -10,6 +10,7 @@ import {
     Image,
     Picker,
     TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
@@ -19,6 +20,7 @@ import ListBody from './list-body';
 import MySwiper from '../shared/my-swiper';
 import SearchButton from '../../share-components/search-button';
 import BackButton from '../../share-components/back-button';
+import { api } from '../../utils';
 
 const { height, width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = width * 375 / 540;
@@ -30,7 +32,7 @@ export default class ListLv2Home extends Component {
         super(props);
         this.state = {
             scrollY: new Animated.Value(0),
-            place: 'vietnam'
+            isLoading: true,
         };
     }
 
@@ -43,12 +45,32 @@ export default class ListLv2Home extends Component {
         );
     }
 
+    componentDidMount() {
+        let url = `${api}/places/filter?random=true&l=3&field=[%27place_name%27%2C%20%27thumbnail%27]&province_id=all&sub_category_id=${this.props.id}`;
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    places: responseJson.places
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     gobackToListLv1() {
         const { navigator } = this.props;
         navigator.pop();
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View />
+            );
+        }
         const headerTranslate = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
             outputRange: [0, -HEADER_SCROLL_DISTANCE],
@@ -93,7 +115,7 @@ export default class ListLv2Home extends Component {
                                 transform: [{ translateY: imageTranslate }],
                             },
                         ]}>
-                        <MySwiper />
+                        <MySwiper data={this.state.places} />
                     </Animated.View>
                 </Animated.View>
                 <Animated.View style={styles.bar} >
@@ -112,63 +134,63 @@ const hSwiper = width * 375 / 540;
 
 const styles = StyleSheet.create({
     fill:
-    {
-        flex: 1,
-    },
+        {
+            flex: 1,
+        },
     header:
-    {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: '#00c9ff',
-        overflow: 'hidden',
-        height: width * 375 / 540
-    },
+        {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: '#00c9ff',
+            overflow: 'hidden',
+            height: width * 375 / 540
+        },
     backgroundImage:
-    {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        width: width,
-        height: width * 375 / 540,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+        {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            width: width,
+            height: width * 375 / 540,
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
     bar:
-    {
-        backgroundColor: 'transparent',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: height / 50,
-    },
+        {
+            backgroundColor: 'transparent',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: height / 50,
+        },
     icon:
-    {
-        height: height / 25,
-        width: height / 25
-    },
+        {
+            height: height / 25,
+            width: height / 25
+        },
     picker_wrapper:
-    {
-        width: width / 2.5,
-        height: height / 22,
-        backgroundColor: 'white',
-        borderRadius: height / 10
-    },
+        {
+            width: width / 2.5,
+            height: height / 22,
+            backgroundColor: 'white',
+            borderRadius: height / 10
+        },
     titleStyle:
-    {
-        fontWeight: 'bold',
-        fontSize: height / 35,
-        color: 'white'
-    },
+        {
+            fontWeight: 'bold',
+            fontSize: height / 35,
+            color: 'white'
+        },
     scrollViewContent:
-    {
-        marginTop: width * 375 / 540,
-    }
+        {
+            marginTop: width * 375 / 540,
+        }
 });

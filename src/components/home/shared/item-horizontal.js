@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Dimensions, StyleSheet, ListView, Text, TouchableOpacity } from 'react-native';
 import Stars from 'react-native-stars';
-
-import RateView from '../../share-components/rate-view';
+import { sub30 } from '../../utils';
 
 const { height, width } = Dimensions.get('window');
 
@@ -29,7 +28,6 @@ export default class ItemHorizontal extends Component {
                     {title}
                 </Text>
                 <View style={row}>
-                    {/* <RateView numStar={numStar} /> */}
                     <Stars
                         value={numStar}
                         half={true}
@@ -42,7 +40,7 @@ export default class ItemHorizontal extends Component {
                     <Text style={numRateStyle}>{numRate} đánh giá</Text>
                 </View>
                 <View style={rowTag}>
-                    <Text style={tagStyle}>{tag}</Text>
+                    <Text style={tagStyle}>{sub30(tag)}</Text>
                     <Text style={distanceStyle}>{distance} km</Text>
                 </View>
             </TouchableOpacity>

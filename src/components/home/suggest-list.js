@@ -18,7 +18,7 @@ export default class MyListView extends Component {
     }
 
     componentDidMount() {
-        let url = api + '/places/suggestion';
+        let url = api + '/places/matrix-factorization';
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

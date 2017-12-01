@@ -10,6 +10,7 @@ import {
     Image,
     Picker,
     TouchableOpacity,
+    ActivityIndicator,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
@@ -20,6 +21,7 @@ import MySwiper from '../shared/my-swiper';
 import ListLv2Home from '../list-lv2/list-lv2';
 import SearchButton from '../../share-components/search-button';
 import BackButton from '../../share-components/back-button';
+import { api } from '../../utils';
 
 const { height, width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = width * 375 / 540;
@@ -48,7 +50,28 @@ export default class ListLv1Home extends Component {
         navigator.pop();
     }
 
+    componentDidMount() {
+        let url = `${api}/places/category/${this.props.id}?random=true&l=3&field=[%27place_name%27%2C%20%27thumbnail%27]&province_id=all`;
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    places: responseJson.places
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View />
+            );
+        }
+
         const headerTranslate = this.state.scrollY.interpolate({
             inputRange: [0, HEADER_SCROLL_DISTANCE],
             outputRange: [0, -HEADER_SCROLL_DISTANCE],
@@ -93,7 +116,7 @@ export default class ListLv1Home extends Component {
                                 transform: [{ translateY: imageTranslate }],
                             },
                         ]}>
-                        <MySwiper />
+                        <MySwiper data={this.state.places} />
                     </Animated.View>
                 </Animated.View>
                 <Animated.View style={styles.bar} >

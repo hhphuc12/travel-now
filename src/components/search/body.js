@@ -56,6 +56,7 @@ export default class Body extends Component {
                 name={item.place_name}
                 address={item.address}
                 numStar={item.rating}
+                id={item._id}
                 tag={item.tag} />));
         return (
             <ScrollView showsVerticalScrollIndicator={false}>

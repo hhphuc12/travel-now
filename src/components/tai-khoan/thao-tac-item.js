@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
 export default class ThaoTacItem extends Component {
     render() {
         return (
-            <View style={styles.wrapper}>
+            <TouchableOpacity style={styles.wrapper} onPress={this.props.solve}>
                 <Image source={this.props.img} style={styles.img} />
                 <Text>{this.props.name}</Text>
-            </View>
+            </TouchableOpacity>
         );
     }
 }
