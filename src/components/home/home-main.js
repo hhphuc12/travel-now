@@ -54,6 +54,7 @@ export default class HomeMain extends Component {
             isLoading: true,
             province: 'Đà Nẵng',
             image: 'http://static.asiawebdirect.com/m/bangkok/portals/vietnam/homepage/da-nang/pagePropertiesImage/da-nang-vietnam.jpg.jpg',
+            id: '59e191ab6cda35083afbd69d',
         };
     }
 
@@ -61,7 +62,7 @@ export default class HomeMain extends Component {
         const { navigator } = this.props;
         return (
             <View style={styles.scrollViewContent}>
-                <HomeContent navigator={navigator} />
+                <HomeContent navigator={navigator} id={this.state.id} />
             </View>
         );
     }
@@ -128,7 +129,9 @@ export default class HomeMain extends Component {
                         { useNativeDriver: true },
                     )}
                 >
-                    {this._renderScrollViewContent()}
+                    <View style={styles.scrollViewContent}>
+                        <HomeContent navigator={this.props.navigator} id={this.state.id} />
+                    </View>
                 </Animated.ScrollView>
                 <Animated.View
                     style={[
@@ -154,7 +157,11 @@ export default class HomeMain extends Component {
                     <View style={styles.picker_wrapper}>
                         <Picker style={styles.picker}
                             selectedValue={this.state.province}
-                            onValueChange={(value, index) => this.setState({ province: value, image: this.state.provinces[index].image })}>
+                            onValueChange={(value, index) => this.setState({
+                                province: value,
+                                image: this.state.provinces[index].image,
+                                id: this.state.provinces[index]._id,
+                            })}>
                             {pickerItem}
                         </Picker>
                     </View>

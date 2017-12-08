@@ -6,7 +6,8 @@ import Stars from 'react-native-stars';
 import { api } from '../../utils';
 import profile from '../../../images/profile.png';
 import btSend from '../../../images/ic_send.png';
-import Reviews from './reviews';
+import ReviewItem from './review-item';
+import Relative from './relative';
 
 const { height, width } = Dimensions.get('window');
 
@@ -15,7 +16,8 @@ export default class DetailsBody extends Component {
         super(props);
         this.state = {
             isLoading: true,
-            numStar: 0
+            numStar: 0,
+            cmt: ''
         }
     }
 
@@ -24,7 +26,6 @@ export default class DetailsBody extends Component {
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson.reviews);
                 this.setState({
                     isLoading: false,
                     place: responseJson.place,
@@ -33,6 +34,38 @@ export default class DetailsBody extends Component {
                     relative: responseJson.relative,
                     photos: responseJson.photos,
                 });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    commitCmt() {
+        let url = `${api}/review/add-get?place_id=${this.props.id}&username=Admin&comment=${this.state.cmt}&rating=0`;
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+                if (responseJson.status == 200) {
+                    console.log('okkkkkkkkkk');
+                }
+                else {
+                    console.log(responseJson.message);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    commitRate() {
+        let url = `${api}/review/add-get?place_id=${this.props.id}&username=Admin&comment=${'Send from Travel Now app'}&rating=${this.state.numStar}`;
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.status == 200) {
+                    console.log('okkkkk');
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -49,18 +82,24 @@ export default class DetailsBody extends Component {
         }
 
         const { lat, lng } = this.state.location;
-        const { reviews } = this.state;
+        const { reviews, relative } = this.state;
         let reviewsJSX;
         if (typeof reviews === 'undefined' || reviews.length === 0)
             reviewsJSX = <Text>Hiện địa điểm này chưa có ai đánh giá, bạn có muốn trở thành người đầu tiên?</Text>
         else {
             reviewsJSX = reviews.map(item =>
-                <Reviews
+                <ReviewItem
                     user={item.account.username}
                     comment={item.comment}
                     rating={item.rating}
                     date={item.create_date} />
             );
+        }
+        let relativeJSX;
+        if (typeof relative === 'undefined' || relative.length === 0)
+            relativeJSX = <Text>Hiện chưa tìm thấy địa điểm liên quan. :(</Text>
+        else {
+            relativeJSX = <Relative navigator={this.props.navigator} data={this.state.relative} />
         }
         return (
             <View>
@@ -93,27 +132,22 @@ export default class DetailsBody extends Component {
                             emptyStar={require('../../../images/ic_rate.png')}
                             halfStar={require('../../../images/ic_rate_half.png')} />
                         {this.state.numStar == 0 ? <View />
-                            : <TouchableOpacity>
+                            : <TouchableOpacity onPress={this.commitRate.bind(this)}>
                                 <Text style={styles.sendNumStar}>GỬI ĐÁNH GIÁ</Text>
                             </TouchableOpacity>}
                         <Text style={styles.evalText}>hoặc để lại cảm nhận của bạn</Text>
                         <View style={styles.cmtRow}>
                             <TextInput
                                 style={styles.textInput}
+                                onChangeText={cmt => this.setState({ cmt: cmt + '' })}
                                 placeholder='Viết bình luận...'
                                 underlineColorAndroid='white' />
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={this.commitCmt.bind(this)}>
                                 <Image source={btSend} style={styles.btSend} />
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-                <View style={styles.block}>
-                    <View style={styles.overviewWrapper}>    
-                        <Text style={styles.overviewTitle}>ĐÁNH GIÁ</Text>    
-                        {reviewsJSX}
-                    </View>
-                </View>    
                 <View style={styles.block}>
                     <MapView
                         style={styles.mapView}
@@ -134,6 +168,18 @@ export default class DetailsBody extends Component {
                     <View style={styles.overviewWrapper}>
                         <Text style={styles.overviewTitle}>TỔNG QUAN</Text>
                         <Text>{this.state.place.detail}</Text>
+                    </View>
+                </View>
+                <View style={styles.block}>
+                    <View style={styles.overviewWrapper}>
+                        <Text style={styles.overviewTitle}>ĐÁNH GIÁ</Text>
+                        {reviewsJSX}
+                    </View>
+                </View>
+                <View style={styles.block}>
+                    <View style={styles.overviewWrapper}>
+                        <Text style={styles.overviewTitle}>ĐỊA ĐIỂM LIÊN QUAN</Text>
+                        {relativeJSX}
                     </View>
                 </View>
             </View >

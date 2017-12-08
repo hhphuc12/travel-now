@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, WebView, Text, Image, StyleSheet, Dimensions ,ActivityIndicator } from 'react-native';
+import { View, WebView, Text, Image, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 
 import BackButton from '../share-components/back-button';
-import { api } from '../../components/utils';
+import { api, sub30 } from '../../components/utils';
 
 import icEmpty from '../../images/ic_empty.png';
 
@@ -45,7 +45,7 @@ export default class Details extends Component {
             <View style={styles.wrapper}>
                 <View style={styles.row}>
                     <BackButton navigator={this.props.navigator} />
-                    <Text style={styles.title}>{this.state.title.substring(0, 40) + '...'}</Text>
+                    <Text style={styles.title}>{sub30(this.state.title)}</Text>
                     <Image source={icEmpty} style={styles.icon} />
                 </View>
                 <WebView source={{ html: this.state.content }} />
@@ -56,26 +56,26 @@ export default class Details extends Component {
 
 const styles = StyleSheet.create({
     wrapper:
-    {
-        flex: 1
-    },
+        {
+            flex: 1
+        },
     title:
-    {
-        fontWeight: 'bold',
-        fontSize: height / 35,
-        color: 'white',
-        paddingLeft: height / 50
-    },
+        {
+            fontWeight: 'bold',
+            fontSize: height / 35,
+            color: 'white',
+            paddingLeft: height / 50
+        },
     icon:
-    {
-        height: height / 25,
-        width: height / 25
-    },
+        {
+            height: height / 25,
+            width: height / 25
+        },
     row:
-    {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: height / 50,
-        backgroundColor: '#00c9ff'
-    }
+        {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: height / 50,
+            backgroundColor: '#00c9ff'
+        }
 });

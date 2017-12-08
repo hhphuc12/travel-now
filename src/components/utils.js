@@ -11,3 +11,6 @@ export function sub30(text) {
 export function subDate(text) {
     return text.substring(0, 10);
 }
+export function rand(begin, end) {
+    return Math.round(Math.random() * (end - begin) + begin);
+}

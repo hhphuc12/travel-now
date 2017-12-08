@@ -13,7 +13,7 @@ export default class TaiKhoan extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            getCookie: true
+            getCookie: false
         };
     }
 
@@ -23,29 +23,31 @@ export default class TaiKhoan extends Component {
     }
 
     componentDidMount() {
-        let getUser = Cookie.get(api, 'username')
-            .then((cookie) => {
-                console.log('username', cookie);
-                this.setState({ username: cookie });
-            });
-        let getStatus = Cookie.get(api, 'loggedIn')
-            .then((cookie) => {
-                console.log('loggedIn', cookie);
-                this.setState({ loggedIn: cookie });
-            });
-        Promise.all(getUser, getStatus).then(() => this.setState({ getCookie: false }));
+        Cookie.get(api, 'username').then(cookie => {
+            this.setState({ username: cookie, getCookie: false });
+        });
+    }
+    
+    componentDidUpdate() {
+        Cookie.get(api, 'username').then(cookie => {
+            this.setState({ username: cookie, getCookie: false });
+        });
     }
 
     render() {
         if (this.state.getCookie) {
             return <View />;
         }
-        console.log(this.state.loggedIn, this.state.username);
-        let nameView = this.state.loggedIn ?
-            (<Text style={styles.text}>{this.state.username}</Text>) :
-            (<TouchableOpacity onPress={this.goToAuth.bind(this)}>
+        let nameView;
+        const { username } = this.state;
+        if (typeof username === 'undefined' || username === '' || username === null) {
+            nameView = (<TouchableOpacity onPress={this.goToAuth.bind(this)}>
                 <Text style={styles.text}>Đăng nhập</Text>
             </TouchableOpacity>);
+        }
+        else {
+            nameView = <Text style={styles.text}>{username}</Text>
+        }
         return (
             <View style={styles.wrapper}>
                 <View style={styles.row}>

@@ -6,7 +6,7 @@ import { subDate } from '../../utils';
 
 const { height, width } = Dimensions.get('window');
 
-export default class DetailsBody extends Component {
+export default class ReviewItem extends Component {
     render() {
         return (
             <View style={styles.wrapper}>

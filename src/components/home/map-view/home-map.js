@@ -5,11 +5,13 @@ import {
     StyleSheet,
     Dimensions,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import MapView from 'react-native-maps';
 
 import BackButton from '../../share-components/back-button';
+import { api } from '../../utils';
 
 const { height, width } = Dimensions.get('window');
 
@@ -17,18 +19,38 @@ export default class HomeMap extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            region:
-            {
+            region: {
                 latitude: 0,
                 longitude: 0,
                 latitudeDelta: 0.06,
                 longitudeDelta: 0.06
             },
-            marker:
-            {
+            marker: {
                 latitude: 0,
                 longitude: 0
-            }
+            },
+            places: [
+                {
+                    name: 'Chùa Linh Ứng',
+                    lat: 16.1001262,
+                    lng: 108.2778203,
+                },
+                {
+                    name: 'Bà Nà Hill',
+                    lat: 15.9977352,
+                    lng: 107.9880772,
+                },
+                {
+                    name: 'Đỉnh Bàn Cờ',
+                    lat: 16.1199862,
+                    lng: 108.2759459,
+                },
+                {
+                    name: 'Bãi tắm Non Nước',
+                    lat: 16.002858,
+                    lng: 108.2700112,
+                },
+            ]
         }
     }
 
@@ -42,17 +64,18 @@ export default class HomeMap extends Component {
             (position) => {
                 this.setState({
                     region:
-                    {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        latitudeDelta: 0.01,
-                        longitudeDelta: 0.01
-                    },
+                        {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            latitudeDelta: 0.01,
+                            longitudeDelta: 0.01
+                        },
                     marker:
-                    {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    }
+                        {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        },
+                    isGettingLocation: false,
                 })
             },
             (error) => {
@@ -76,6 +99,16 @@ export default class HomeMap extends Component {
                     initialRegion={this.state.region}
                     showsUserLocation
                     showsMyLocationButton >
+                    {this.state.places.map(marker => {
+                        const { lat, lng } = marker;
+                        return <MapView.Marker
+                            coordinate={{
+                                latitude: lat,
+                                longitude: lng,
+                            }}
+                            title={this.state.places.title}
+                            color='red' />
+                    })}
                 </MapView>
             </View>
         );
@@ -84,34 +117,34 @@ export default class HomeMap extends Component {
 
 const styles = StyleSheet.create({
     wrapper:
-    {
-        flex: 1
-    },
+        {
+            flex: 1
+        },
     title:
-    {
-        fontWeight: 'bold',
-        fontSize: height / 35,
-        color: 'white'
-    },
+        {
+            fontWeight: 'bold',
+            fontSize: height / 35,
+            color: 'white'
+        },
     icon:
-    {
-        height: height / 25,
-        width: height / 25
-    },
+        {
+            height: height / 25,
+            width: height / 25
+        },
     row:
-    {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: height / 50,
-        backgroundColor: '#00c9ff'
-    },
+        {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: height / 50,
+            backgroundColor: '#00c9ff'
+        },
     mapView:
-    {
-        flex: 1
-    },
+        {
+            flex: 1
+        },
     marker:
-    {
-        height: height / 10,
-        width: height / 10
-    }
+        {
+            height: height / 10,
+            width: height / 10
+        }
 });

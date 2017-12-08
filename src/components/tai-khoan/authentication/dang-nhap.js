@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Dimensions, StyleSheet, AsyncStorage } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Dimensions, StyleSheet, AsyncStorage, Modal } from 'react-native';
 import Cookie from 'react-native-cookie';
 
 import { api } from '../../utils';
@@ -11,7 +11,8 @@ export default class DangNhap extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            visible: false,
         }
     }
 
@@ -22,11 +23,13 @@ export default class DangNhap extends Component {
             .then((responseJson) => {
                 if (responseJson.status === 200) {
                     Cookie.set(api, 'username', responseJson.account.username)
-                        .then(() => Cookie.set(api, 'loggedIn', true))
                         .then(() => {
                             const { navigator } = this.props;
                             navigator.pop();
                         });
+                }
+                else {
+                    this.setState({ visible: true });
                 }
             })
             .catch((error) => {
@@ -37,6 +40,9 @@ export default class DangNhap extends Component {
     render() {
         return (
             <View style={styles.wrapper}>
+                <View style={styles.warningWrapper}>
+                    {this.state.visible ? <Text style={styles.warning}>Đăng nhập thất bại, mời thử lại</Text> : <View />}
+                </View>
                 <TextInput
                     style={styles.textInput}
                     placeholder='Enter your username'
@@ -59,6 +65,14 @@ export default class DangNhap extends Component {
 }
 
 const styles = StyleSheet.create({
+    warning: {
+        color: 'red',
+        fontStyle: 'italic',
+        fontSize: height / 38
+    },
+    warningWrapper: {
+        alignItems: 'center',
+    },
     wrapper: {
         padding: height / 30
     },

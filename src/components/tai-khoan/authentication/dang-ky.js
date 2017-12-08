@@ -9,23 +9,23 @@ export default class DangKy extends Component {
             <View style={styles.wrapper}>
                 <TextInput
                     style={styles.textInput}
-                    placeholder='Enter your name'
+                    placeholder='Enter your username'
                     underlineColorAndroid='white'
-                />
-                <TextInput
-                    style={styles.textInput}
-                    placeholder='Enter your email'
-                    underlineColorAndroid='white'
+                    onChangeText={username => this.setState({ username: username })}
                 />
                 <TextInput
                     style={styles.textInput}
                     placeholder='Enter your password'
                     underlineColorAndroid='white'
+                    secureTextEntry
+                    onChangeText={password => this.setState({ password: password })}
                 />
                 <TextInput
                     style={styles.textInput}
-                    placeholder='Conrifm your password'
+                    placeholder='Confirm your password'
                     underlineColorAndroid='white'
+                    secureTextEntry
+                    onChangeText={password => this.setState({ passConfirm: password })}
                 />
                 <TouchableOpacity style={styles.btnInput}>
                     <Text style={styles.btText}>Đăng ký</Text>

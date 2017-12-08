@@ -18,7 +18,7 @@ export default class App extends Component {
         console.disableYellowBox = true;
         return (
             <Navigator
-                initialRoute={{ name: 'home' }}
+                initialRoute={{ name: 'check_connect' }}
                 renderScene={(route, navigator) => {
                     switch (route.name) {
                         case 'home_map': return <HomeMap navigator={navigator} />;
@@ -30,7 +30,9 @@ export default class App extends Component {
                                 navigator={navigator}
                                 id={route.id}
                                 imgSource={route.imgSource}
-                                title={route.title} />;
+                                title={route.title}
+                                numStar={route.numStar}
+                                numRate={route.numRate} />;
                         case 'other_details': return <Details navigator={navigator} id={route.id} />;
                         case 'check_connect': return <CheckConnect navigator={navigator} />;
                         case 'authentication': return <Authentication navigator={navigator} />;

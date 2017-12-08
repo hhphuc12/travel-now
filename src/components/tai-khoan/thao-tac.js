@@ -34,9 +34,11 @@ export default class Body extends Component {
                 img: require('../../images/ic_logout.png'),
                 name: 'Đăng xuất',
                 solve: () => {
-                    Cookie.clear(api);
-                    const { navigator } = this.props;
-                    navigator.push({ name: 'authentication' });
+                    Cookie.clear(api)
+                        .then(() => {
+                            const { navigator } = this.props;
+                            navigator.push({ name: 'authentication' });
+                        });
                 }
             }
         ];

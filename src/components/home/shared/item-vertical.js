@@ -28,7 +28,6 @@ export default class ItemVertical extends Component {
                         <Text style={titleStyle}>{sub30(this.props.name)}</Text>
                         <Text style={addressStyle}>{sub30(this.props.address)}</Text>
                         <Text style={tagStyle}>{sub30(`tag: ${this.props.tag}`)}</Text>
-                        <Text style={distanceStyle}>39,7 km</Text>
                     </View>
                 </View>
                 <View style={rightWrapper}>

@@ -24,7 +24,7 @@ export default class CheckConnect extends Component {
 
     render() {
         if (this.state.isOnline) {
-            setTimeout(this.goToHome.bind(this), 3000);
+            setTimeout(this.goToHome.bind(this), 5000);
             return (
                 <Image source={require('../images/welcome.png')} style={styles.welcome} />
             );

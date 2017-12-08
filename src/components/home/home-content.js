@@ -37,9 +37,9 @@ export default class HomeContent extends Component {
             );
         }
 
-        const { navigator } = this.props;
+        const { navigator, id } = this.props;
         const myListView = this.state.categoryList.map(item =>
-            (<MyListView listTitle={item.category_name} navigator={navigator} id={item._id} />));
+            (<MyListView listTitle={item.category_name} navigator={navigator} id={item._id} province_id={id} />));
         return (
             <View>
                 <Menu navigator={navigator} />

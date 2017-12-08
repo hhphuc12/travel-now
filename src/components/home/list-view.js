@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import ItemHorizontal from './shared/item-horizontal';
-import { api } from '../utils';
+import { api, rand } from '../utils';
 
 const { height, width } = Dimensions.get('window');
 
@@ -23,7 +23,7 @@ export default class MyListView extends Component {
     }
 
     componentDidMount() {
-        let url = `${api}/places/filter?category_id=${this.props.id}&l=4&p=0&province_id=all`;
+        let url = `${api}/places/category?category_id=${this.props.id}&l=4&p=0&province_id=${this.props.province_id}`;
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -64,7 +64,7 @@ export default class MyListView extends Component {
                             title={item.place_name}
                             imgSource={item.thumbnail}
                             numStar={item.rating}
-                            numRate={3}
+                            numRate={rand(1, 4)}
                             distance={'70'}
                             tag={item.tag} />
                     }}

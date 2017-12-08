@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import thumbnail from '../../../images/thumbnail.png';
-
 import EventBody from './event-body';
 import MySwiper from '../shared/my-swiper';
 import SearchButton from '../../share-components/search-button';
@@ -85,16 +83,16 @@ export default class EventHome extends Component {
                         { transform: [{ translateY: headerTranslate }] },
                     ]}
                 >
-                    <Animated.View
+                    <Animated.Image
                         style={[
                             styles.backgroundImage,
                             {
                                 opacity: imageOpacity,
                                 transform: [{ translateY: imageTranslate }],
                             },
-                        ]}>
-                        <MySwiper />
-                    </Animated.View>
+                        ]}
+                        source={{ uri: 'http://invisionstudio.com/wp-content/uploads/2015/09/Music-and-Events-Life-Is-Beautiful-Festival-Music-Venue-Event-Venue-Las-Vegas.jpg' }}
+                    />
                 </Animated.View>
                 <Animated.View style={styles.bar} >
                     <BackButton navigator={this.props.navigator} />

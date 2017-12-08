@@ -7,12 +7,14 @@ const { height, width } = Dimensions.get('window');
 
 export default class ItemHorizontal extends Component {
     goToDetails() {
-        const { navigator } = this.props;
+        const { navigator, id, imgSource, title, numStar, numRate } = this.props;
         navigator.push({
             name: 'home_details',
-            id: this.props.id,
-            imgSource: this.props.imgSource,
-            title: this.props.title
+            id: id,
+            imgSource: imgSource,
+            title: title,
+            numStar: numStar,
+            numRate: numRate,
         });
     }
 
@@ -41,7 +43,6 @@ export default class ItemHorizontal extends Component {
                 </View>
                 <View style={rowTag}>
                     <Text style={tagStyle}>{sub30(tag)}</Text>
-                    <Text style={distanceStyle}>{distance} km</Text>
                 </View>
             </TouchableOpacity>
         );

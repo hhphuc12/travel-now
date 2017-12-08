@@ -17,6 +17,7 @@ import icEmpty from '../../../images/ic_empty.png';
 import DetailsBody from './details-body';
 import BackButton from '../../share-components/back-button';
 import RateView from '../../share-components/rate-view';
+import { rand } from '../../utils';
 
 const { height, width } = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = width * 375 / 540;
@@ -89,10 +90,10 @@ export default class HomeMain extends Component {
                         <Text />
                         <View style={styles.rateGroup}>
                             <View style={styles.rateRow}>
-                                <RateView numStar={3} />
-                                <Text style={styles.rateText}>2 Đánh giá</Text>
+                                <RateView numStar={this.props.numStar} />
+                                <Text style={styles.rateText}>{`${this.props.numRate} Đánh giá`}</Text>
                             </View>
-                            <Text style={{ color: 'white' }}>3 Lượt thích</Text>
+                            <Text style={{ color: 'white' }}>{ `${rand(1, 3)} Lượt thích` }</Text>
                         </View>
                     </Animated.Image>
                 </Animated.View >
